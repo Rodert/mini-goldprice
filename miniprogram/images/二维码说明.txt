@@ -1,0 +1,15 @@
+请将你的二维码图片放在这里
+
+文件名：qrcode.png
+推荐尺寸：200x200px
+格式：PNG 或 JPG
+
+如何添加：
+1. 生成你的个人或公司二维码
+2. 保存为 qrcode.png
+3. 放到这个文件夹
+4. 修改 pages/index/index.js 第29行：
+   qrcodeUrl: '/images/qrcode.png'
+
+详细说明请查看：如何添加二维码.md
+

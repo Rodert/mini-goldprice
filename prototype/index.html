@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>贵金属行情 - 原型图</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #f5f5f5;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 375px;
+            margin: 0 auto;
+            background: #fff;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        }
+
+        /* 导航栏 */
+        .navbar {
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+            padding: 20px;
+            color: #fff;
+        }
+
+        .navbar h1 {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .navbar .subtitle {
+            font-size: 12px;
+            opacity: 0.9;
+        }
+
+        .navbar .time {
+            margin-top: 10px;
+            font-size: 11px;
+            opacity: 0.8;
+        }
+
+        /* 搜索栏 */
+        .search-bar {
+            padding: 15px;
+            background: #fff;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 10px 15px;
+            border: 1px solid #e0e0e0;
+            border-radius: 20px;
+            font-size: 14px;
+            background: #f9f9f9;
+        }
+
+        /* 快捷导航 */
+        .quick-nav {
+            display: flex;
+            padding: 15px;
+            gap: 10px;
+            overflow-x: auto;
+            background: #fff;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .nav-item {
+            min-width: 70px;
+            text-align: center;
+            padding: 8px 15px;
+            background: #f8f8f8;
+            border-radius: 15px;
+            font-size: 13px;
+            color: #333;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .nav-item.active {
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+            color: #fff;
+            font-weight: 600;
+        }
+
+        /* 行情列表 */
+        .market-list {
+            padding: 10px;
+        }
+
+        .market-card {
+            background: #fff;
+            border-radius: 15px;
+            padding: 15px;
+            margin-bottom: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .market-card:hover {
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            transform: translateY(-2px);
+        }
+
+        .market-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .market-icon {
+            width: 45px;
+            height: 45px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        .icon-gold {
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+            color: #fff;
+        }
+
+        .icon-silver {
+            background: linear-gradient(135deg, #C0C0C0 0%, #A8A8A8 100%);
+            color: #fff;
+        }
+
+        .icon-platinum {
+            background: linear-gradient(135deg, #E5E4E2 0%, #BCC6CC 100%);
+            color: #333;
+        }
+
+        .icon-palladium {
+            background: linear-gradient(135deg, #CED0DD 0%, #A8AABC 100%);
+            color: #333;
+        }
+
+        .market-info h3 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 4px;
+            color: #333;
+        }
+
+        .market-info .subtitle {
+            font-size: 12px;
+            color: #999;
+        }
+
+        .market-right {
+            flex: 1;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+            margin-left: 10px;
+        }
+
+        .price-box {
+            text-align: center;
+            padding: 8px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .price-label {
+            font-size: 11px;
+            color: #999;
+            margin-bottom: 4px;
+        }
+
+        .price {
+            font-size: 16px;
+            font-weight: 700;
+            color: #333;
+        }
+
+        .price-buy {
+            color: #22C55E;
+        }
+
+        .price-sell {
+            color: #FF4444;
+        }
+
+        .price-range {
+            grid-column: 1 / -1;
+            display: flex;
+            justify-content: space-between;
+            padding: 6px 10px;
+        }
+
+        .range-item {
+            font-size: 11px;
+            color: #666;
+        }
+
+        .range-value {
+            font-weight: 600;
+            margin-left: 4px;
+        }
+
+        /* 底部导航 */
+        .bottom-nav {
+            display: flex;
+            background: #fff;
+            border-top: 1px solid #f0f0f0;
+            padding: 10px 0;
+        }
+
+        .bottom-nav-item {
+            flex: 1;
+            text-align: center;
+            padding: 8px 0;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .bottom-nav-item .icon {
+            font-size: 24px;
+            margin-bottom: 4px;
+        }
+
+        .bottom-nav-item .label {
+            font-size: 11px;
+            color: #999;
+        }
+
+        .bottom-nav-item.active .icon {
+            color: #FFA500;
+        }
+
+        .bottom-nav-item.active .label {
+            color: #FFA500;
+            font-weight: 600;
+        }
+
+        /* 页面切换按钮 */
+        .page-switcher {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+
+        .page-btn {
+            display: block;
+            padding: 8px 15px;
+            background: #333;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 12px;
+            margin-bottom: 5px;
+            transition: all 0.3s;
+        }
+
+        .page-btn:hover {
+            background: #555;
+        }
+
+        /* 提示文字 */
+        .prototype-tip {
+            text-align: center;
+            padding: 20px;
+            background: #FFF9E6;
+            color: #D4A017;
+            font-size: 12px;
+            border-radius: 10px;
+            margin: 15px;
+        }
+
+        /* 店铺信息 */
+        .store-info {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            margin: 15px;
+            border-radius: 15px;
+            color: #fff;
+        }
+
+        .store-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .store-item {
+            margin-bottom: 12px;
+            font-size: 14px;
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+        }
+
+        .store-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .store-icon {
+            font-size: 16px;
+            margin-top: 2px;
+        }
+
+        .store-content {
+            flex: 1;
+            line-height: 1.6;
+        }
+
+        .store-action {
+            background: rgba(255,255,255,0.2);
+            padding: 12px 20px;
+            border-radius: 10px;
+            margin-top: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .store-action:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        /* 免责声明 */
+        .disclaimer {
+            background: #FFF3E0;
+            padding: 15px;
+            margin: 15px;
+            border-radius: 12px;
+            border-left: 4px solid #FFA500;
+        }
+
+        .disclaimer-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #F57C00;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .disclaimer-content {
+            font-size: 12px;
+            color: #666;
+            line-height: 1.8;
+        }
+
+        .disclaimer-content p {
+            margin-bottom: 8px;
+        }
+
+        .disclaimer-content p:last-child {
+            margin-bottom: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="page-switcher">
+        <a href="index.html" class="page-btn">首页</a>
+        <a href="detail.html" class="page-btn">详情页</a>
+        <a href="alert.html" class="page-btn">提醒页</a>
+        <a href="profile.html" class="page-btn">我的</a>
+    </div>
+
+    <div class="container">
+        <!-- 导航栏 -->
+        <div class="navbar">
+            <h1>贵金属回收</h1>
+            <div class="subtitle">诚信经营 · 价格公道</div>
+            <div class="time">更新时间: 2025-11-03 14:32:15</div>
+        </div>
+
+        <!-- 搜索栏 -->
+        <div class="search-bar">
+            <input type="text" class="search-input" placeholder="搜索贵金属品种...">
+        </div>
+
+        <!-- 快捷导航 -->
+        <div class="quick-nav">
+            <div class="nav-item active">全部</div>
+            <div class="nav-item">黄金</div>
+            <div class="nav-item">白银</div>
+            <div class="nav-item">铂金</div>
+            <div class="nav-item">钯金</div>
+            <div class="nav-item">自选</div>
+        </div>
+
+        <div class="prototype-tip">
+            💰 今日回收报价 - 价格实时更新
+        </div>
+
+        <!-- 价格列表 -->
+        <div class="market-list">
+            <div class="market-card">
+                <div class="market-left">
+                    <div class="market-icon icon-gold">Au</div>
+                    <div class="market-info">
+                        <h3>黄金 Au9999</h3>
+                        <div class="subtitle">足金 · 千足金</div>
+                    </div>
+                </div>
+                <div class="market-right">
+                    <div class="price-box">
+                        <div class="price-label">回购价</div>
+                        <div class="price price-buy">¥558.50</div>
+                    </div>
+                    <div class="price-box">
+                        <div class="price-label">销售价</div>
+                        <div class="price price-sell">¥568.80</div>
+                    </div>
+                    <div class="price-range">
+                        <span class="range-item">最高<span class="range-value">¥570.20</span></span>
+                        <span class="range-item">最低<span class="range-value">¥556.30</span></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="market-card">
+                <div class="market-left">
+                    <div class="market-icon icon-gold">Au</div>
+                    <div class="market-info">
+                        <h3>黄金 Au9950</h3>
+                        <div class="subtitle">3D硬金 · K金</div>
+                    </div>
+                </div>
+                <div class="market-right">
+                    <div class="price-box">
+                        <div class="price-label">回购价</div>
+                        <div class="price price-buy">¥556.20</div>
+                    </div>
+                    <div class="price-box">
+                        <div class="price-label">销售价</div>
+                        <div class="price price-sell">¥566.50</div>
+                    </div>
+                    <div class="price-range">
+                        <span class="range-item">最高<span class="range-value">¥568.00</span></span>
+                        <span class="range-item">最低<span class="range-value">¥554.10</span></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="market-card">
+                <div class="market-left">
+                    <div class="market-icon icon-silver">Ag</div>
+                    <div class="market-info">
+                        <h3>白银 Ag9999</h3>
+                        <div class="subtitle">千足银 · 银条</div>
+                    </div>
+                </div>
+                <div class="market-right">
+                    <div class="price-box">
+                        <div class="price-label">回购价</div>
+                        <div class="price price-buy">¥7.15</div>
+                    </div>
+                    <div class="price-box">
+                        <div class="price-label">销售价</div>
+                        <div class="price price-sell">¥7.45</div>
+                    </div>
+                    <div class="price-range">
+                        <span class="range-item">最高<span class="range-value">¥7.50</span></span>
+                        <span class="range-item">最低<span class="range-value">¥7.10</span></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="market-card">
+                <div class="market-left">
+                    <div class="market-icon icon-platinum">Pt</div>
+                    <div class="market-info">
+                        <h3>铂金 Pt950</h3>
+                        <div class="subtitle">白金 · 铂金饰品</div>
+                    </div>
+                </div>
+                <div class="market-right">
+                    <div class="price-box">
+                        <div class="price-label">回购价</div>
+                        <div class="price price-buy">¥208.30</div>
+                    </div>
+                    <div class="price-box">
+                        <div class="price-label">销售价</div>
+                        <div class="price price-sell">¥218.50</div>
+                    </div>
+                    <div class="price-range">
+                        <span class="range-item">最高<span class="range-value">¥220.00</span></span>
+                        <span class="range-item">最低<span class="range-value">¥206.50</span></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="market-card">
+                <div class="market-left">
+                    <div class="market-icon icon-palladium">Pd</div>
+                    <div class="market-info">
+                        <h3>钯金 Pd990</h3>
+                        <div class="subtitle">钯金饰品</div>
+                    </div>
+                </div>
+                <div class="market-right">
+                    <div class="price-box">
+                        <div class="price-label">回购价</div>
+                        <div class="price price-buy">¥715.80</div>
+                    </div>
+                    <div class="price-box">
+                        <div class="price-label">销售价</div>
+                        <div class="price price-sell">¥735.20</div>
+                    </div>
+                    <div class="price-range">
+                        <span class="range-item">最高<span class="range-value">¥738.00</span></span>
+                        <span class="range-item">最低<span class="range-value">¥712.50</span></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 店铺信息 -->
+        <div class="store-info">
+            <div class="store-title">
+                <span>🏪</span>
+                <span>门店信息</span>
+            </div>
+            <div class="store-item">
+                <div class="store-icon">📍</div>
+                <div class="store-content">
+                    <div style="font-weight: 600; margin-bottom: 4px;">收购地址</div>
+                    <div>北京市朝阳区建国路88号现代城A座1808室</div>
+                </div>
+            </div>
+            <div class="store-item">
+                <div class="store-icon">📞</div>
+                <div class="store-content">
+                    <div style="font-weight: 600; margin-bottom: 4px;">联系电话</div>
+                    <div>400-888-8888 / 138-0000-0000</div>
+                </div>
+            </div>
+            <div class="store-item">
+                <div class="store-icon">🕐</div>
+                <div class="store-content">
+                    <div style="font-weight: 600; margin-bottom: 4px;">营业时间</div>
+                    <div>周一至周日 09:00 - 18:00</div>
+                </div>
+            </div>
+            <div class="store-action">
+                📱 点击拨打电话 | 🗺️ 导航到店
+            </div>
+        </div>
+
+        <!-- 免责声明 -->
+        <div class="disclaimer">
+            <div class="disclaimer-title">
+                <span>⚠️</span>
+                <span>免责声明</span>
+            </div>
+            <div class="disclaimer-content">
+                <p>1. 本页面展示的价格仅供参考，实际回收价格以到店当面检测为准。</p>
+                <p>2. 贵金属价格随国际行情波动，我们会根据实时市场行情调整报价。</p>
+                <p>3. 回收价格会根据成色、重量、品牌等因素有所差异，具体以实物鉴定为准。</p>
+                <p>4. 请携带有效身份证件及相关票据到店办理回收业务。</p>
+                <p>5. 本店承诺诚信经营，公平交易，欢迎监督。</p>
+            </div>
+        </div>
+
+        <!-- 底部导航 -->
+        <div class="bottom-nav">
+            <div class="bottom-nav-item active">
+                <div class="icon">💰</div>
+                <div class="label">报价</div>
+            </div>
+            <div class="bottom-nav-item">
+                <div class="icon">📱</div>
+                <div class="label">预约</div>
+            </div>
+            <div class="bottom-nav-item">
+                <div class="icon">🧮</div>
+                <div class="label">计算器</div>
+            </div>
+            <div class="bottom-nav-item">
+                <div class="icon">👤</div>
+                <div class="label">我的</div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

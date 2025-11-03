@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>价格计算器 - 原型图</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #f5f5f5;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 375px;
+            margin: 0 auto;
+            background: #fff;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        }
+
+        /* 导航栏 */
+        .navbar {
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+            padding: 20px;
+            color: #fff;
+        }
+
+        .navbar h1 {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .navbar .subtitle {
+            font-size: 12px;
+            opacity: 0.9;
+        }
+
+        /* Tab切换 */
+        .tabs {
+            display: flex;
+            background: #fff;
+            border-bottom: 1px solid #f0f0f0;
+            padding: 0 20px;
+        }
+
+        .tab-item {
+            flex: 1;
+            text-align: center;
+            padding: 15px 0;
+            font-size: 15px;
+            color: #666;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.3s;
+        }
+
+        .tab-item.active {
+            color: #FFA500;
+            font-weight: 600;
+        }
+
+        .tab-item.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 30px;
+            height: 3px;
+            background: #FFA500;
+            border-radius: 2px;
+        }
+
+        /* 计算器区域 */
+        .calculator-section {
+            padding: 20px;
+        }
+
+        .calc-group {
+            margin-bottom: 25px;
+        }
+
+        .calc-label {
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        /* 金属选择 */
+        .metal-select {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+
+        .metal-btn {
+            padding: 12px;
+            background: #f8f9fa;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .metal-btn.active {
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+            border-color: #FFA500;
+            color: #fff;
+            font-weight: 600;
+        }
+
+        /* 输入框组 */
+        .input-group {
+            position: relative;
+        }
+
+        .calc-input {
+            width: 100%;
+            padding: 15px;
+            padding-right: 60px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .calc-input:focus {
+            outline: none;
+            border-color: #FFA500;
+            box-shadow: 0 0 0 3px rgba(255,165,0,0.1);
+        }
+
+        .input-unit {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 14px;
+            color: #999;
+        }
+
+        /* 当前价格显示 */
+        .current-price {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 15px;
+            border-radius: 12px;
+            margin-top: 10px;
+            color: #fff;
+        }
+
+        .price-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .price-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .price-label {
+            font-size: 13px;
+            opacity: 0.9;
+        }
+
+        .price-value {
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        /* 计算结果 */
+        .result-box {
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+            padding: 25px;
+            border-radius: 15px;
+            margin-top: 25px;
+            text-align: center;
+            color: #fff;
+        }
+
+        .result-label {
+            font-size: 14px;
+            margin-bottom: 10px;
+            opacity: 0.9;
+        }
+
+        .result-value {
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .result-detail {
+            font-size: 13px;
+            opacity: 0.9;
+            line-height: 1.6;
+        }
+
+        /* 计算按钮 */
+        .calc-btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+            color: #fff;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 20px;
+        }
+
+        .calc-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255,165,0,0.4);
+        }
+
+        /* 快捷计算 */
+        .quick-calc {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .quick-btn {
+            padding: 10px;
+            background: #f8f9fa;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+        }
+
+        .quick-btn:hover {
+            background: #FFF3E0;
+            border-color: #FFA500;
+        }
+
+        /* 说明文字 */
+        .calculator-tip {
+            background: #E3F2FD;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 10px;
+            border-left: 4px solid #2196F3;
+        }
+
+        .calculator-tip h4 {
+            font-size: 14px;
+            color: #1976D2;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .calculator-tip p {
+            font-size: 12px;
+            color: #666;
+            line-height: 1.8;
+        }
+
+        /* 底部导航 */
+        .bottom-nav {
+            display: flex;
+            background: #fff;
+            border-top: 1px solid #f0f0f0;
+            padding: 10px 0;
+        }
+
+        .bottom-nav-item {
+            flex: 1;
+            text-align: center;
+            padding: 8px 0;
+            cursor: pointer;
+        }
+
+        .bottom-nav-item .icon {
+            font-size: 24px;
+            margin-bottom: 4px;
+        }
+
+        .bottom-nav-item .label {
+            font-size: 11px;
+            color: #999;
+        }
+
+        .bottom-nav-item.active .icon {
+            color: #FFA500;
+        }
+
+        .bottom-nav-item.active .label {
+            color: #FFA500;
+            font-weight: 600;
+        }
+
+        /* 页面切换按钮 */
+        .page-switcher {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+
+        .page-btn {
+            display: block;
+            padding: 8px 15px;
+            background: #333;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 12px;
+            margin-bottom: 5px;
+            transition: all 0.3s;
+        }
+
+        .page-btn:hover {
+            background: #555;
+        }
+
+        .prototype-tip {
+            text-align: center;
+            padding: 15px;
+            background: #FFF9E6;
+            color: #D4A017;
+            font-size: 12px;
+            border-radius: 10px;
+            margin: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="page-switcher">
+        <a href="index.html" class="page-btn">首页</a>
+        <a href="appointment.html" class="page-btn">预约</a>
+        <a href="calculator.html" class="page-btn">计算器</a>
+        <a href="profile.html" class="page-btn">我的</a>
+    </div>
+
+    <div class="container">
+        <!-- 导航栏 -->
+        <div class="navbar">
+            <h1>价格计算器</h1>
+            <div class="subtitle">快速估算贵金属回收价值</div>
+        </div>
+
+        <!-- Tab切换 -->
+        <div class="tabs">
+            <div class="tab-item active">价值计算</div>
+            <div class="tab-item">克重换算</div>
+        </div>
+
+        <div class="prototype-tip">
+            🧮 这是计算器页 - 帮助用户快速估算贵金属价值
+        </div>
+
+        <!-- 计算器区域 -->
+        <div class="calculator-section">
+            <div class="calc-group">
+                <label class="calc-label">选择贵金属品种</label>
+                <div class="metal-select">
+                    <div class="metal-btn active">
+                        <span>💛</span>
+                        <span>黄金</span>
+                    </div>
+                    <div class="metal-btn">
+                        <span>🤍</span>
+                        <span>白银</span>
+                    </div>
+                    <div class="metal-btn">
+                        <span>💍</span>
+                        <span>铂金</span>
+                    </div>
+                    <div class="metal-btn">
+                        <span>⚪</span>
+                        <span>钯金</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="calc-group">
+                <label class="calc-label">当前回购价格</label>
+                <div class="current-price">
+                    <div class="price-row">
+                        <span class="price-label">黄金 Au9999 回购价</span>
+                        <span class="price-value">¥558.50 / 克</span>
+                    </div>
+                    <div class="price-row">
+                        <span class="price-label">更新时间</span>
+                        <span class="price-value">14:32:15</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="calc-group">
+                <label class="calc-label">输入重量</label>
+                <div class="input-group">
+                    <input type="number" class="calc-input" placeholder="0.00" value="50">
+                    <span class="input-unit">克</span>
+                </div>
+                <div class="quick-calc">
+                    <div class="quick-btn">10克</div>
+                    <div class="quick-btn">50克</div>
+                    <div class="quick-btn">100克</div>
+                </div>
+            </div>
+
+            <div class="calc-group">
+                <label class="calc-label">成色系数（可选）</label>
+                <div class="input-group">
+                    <input type="number" class="calc-input" placeholder="100" value="99.9">
+                    <span class="input-unit">%</span>
+                </div>
+                <div class="quick-calc">
+                    <div class="quick-btn">99.9%</div>
+                    <div class="quick-btn">99.5%</div>
+                    <div class="quick-btn">99%</div>
+                </div>
+            </div>
+
+            <button class="calc-btn">计算价值</button>
+
+            <!-- 计算结果 -->
+            <div class="result-box">
+                <div class="result-label">预估回收价值</div>
+                <div class="result-value">¥27,925</div>
+                <div class="result-detail">
+                    计算明细：50克 × ¥558.50/克 × 99.9%<br>
+                    *最终价格以实物检测为准
+                </div>
+            </div>
+
+            <!-- 说明 -->
+            <div class="calculator-tip">
+                <h4>
+                    <span>💡</span>
+                    <span>使用说明</span>
+                </h4>
+                <p>1. 选择要回收的贵金属品种<br>
+                2. 输入物品的重量（克）<br>
+                3. 如知道成色可输入系数，不清楚可保持默认<br>
+                4. 点击计算即可得到预估价值<br>
+                <br>
+                <strong>温馨提示：</strong>此计算器仅供参考，实际回收价格需要专业检测后确定，包括成色鉴定、重量复核等环节。</p>
+            </div>
+
+            <!-- 历史计算记录 -->
+            <div style="margin-top: 30px;">
+                <label class="calc-label">最近计算记录</label>
+                <div style="background: #f8f9fa; padding: 15px; border-radius: 10px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px solid #e0e0e0;">
+                        <div>
+                            <div style="font-size: 14px; font-weight: 600; color: #333; margin-bottom: 4px;">黄金 50克</div>
+                            <div style="font-size: 12px; color: #999;">2025-11-03 14:30</div>
+                        </div>
+                        <div style="font-size: 18px; font-weight: 700; color: #FFA500;">¥27,925</div>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px solid #e0e0e0;">
+                        <div>
+                            <div style="font-size: 14px; font-weight: 600; color: #333; margin-bottom: 4px;">白银 200克</div>
+                            <div style="font-size: 12px; color: #999;">2025-11-02 10:15</div>
+                        </div>
+                        <div style="font-size: 18px; font-weight: 700; color: #FFA500;">¥1,430</div>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <div>
+                            <div style="font-size: 14px; font-weight: 600; color: #333; margin-bottom: 4px;">铂金 20克</div>
+                            <div style="font-size: 12px; color: #999;">2025-11-01 16:20</div>
+                        </div>
+                        <div style="font-size: 18px; font-weight: 700; color: #FFA500;">¥4,166</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 底部导航 -->
+        <div class="bottom-nav">
+            <div class="bottom-nav-item">
+                <div class="icon">💰</div>
+                <div class="label">报价</div>
+            </div>
+            <div class="bottom-nav-item">
+                <div class="icon">📱</div>
+                <div class="label">预约</div>
+            </div>
+            <div class="bottom-nav-item active">
+                <div class="icon">🧮</div>
+                <div class="label">计算器</div>
+            </div>
+            <div class="bottom-nav-item">
+                <div class="icon">👤</div>
+                <div class="label">我的</div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

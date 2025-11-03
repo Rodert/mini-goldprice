@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>贵金属回收小程序 - 原型图导航</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            color: #fff;
+            margin-bottom: 50px;
+        }
+
+        .header h1 {
+            font-size: 42px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+
+        .header .subtitle {
+            font-size: 18px;
+            opacity: 0.9;
+            margin-bottom: 10px;
+        }
+
+        .header .version {
+            font-size: 14px;
+            opacity: 0.7;
+        }
+
+        .page-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+
+        .page-card {
+            background: #fff;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transition: all 0.3s;
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+
+        .page-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+        }
+
+        .page-icon {
+            width: 70px;
+            height: 70px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            margin-bottom: 20px;
+        }
+
+        .icon-home {
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+        }
+
+        .icon-appointment {
+            background: linear-gradient(135deg, #60A5FA 0%, #3B82F6 100%);
+        }
+
+        .icon-calculator {
+            background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
+        }
+
+        .icon-profile {
+            background: linear-gradient(135deg, #A78BFA 0%, #8B5CF6 100%);
+        }
+
+        .page-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .page-desc {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .page-features {
+            list-style: none;
+            padding: 0;
+        }
+
+        .page-features li {
+            font-size: 13px;
+            color: #888;
+            padding: 5px 0;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .page-features li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #22C55E;
+            font-weight: bold;
+        }
+
+        .info-section {
+            background: rgba(255,255,255,0.95);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            margin-bottom: 30px;
+        }
+
+        .info-section h2 {
+            font-size: 24px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .info-content {
+            color: #666;
+            line-height: 1.8;
+            font-size: 15px;
+        }
+
+        .info-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .info-list li {
+            padding: 10px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .info-list li:last-child {
+            border-bottom: none;
+        }
+
+        .info-list strong {
+            color: #333;
+            display: inline-block;
+            min-width: 100px;
+        }
+
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .tech-item {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .tech-item .title {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .tech-item .desc {
+            font-size: 13px;
+            color: #666;
+        }
+
+        .footer {
+            text-align: center;
+            color: rgba(255,255,255,0.8);
+            margin-top: 50px;
+            font-size: 14px;
+        }
+
+        .view-all-btn {
+            display: inline-block;
+            padding: 15px 40px;
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+            color: #fff;
+            text-decoration: none;
+            border-radius: 30px;
+            font-size: 16px;
+            font-weight: 600;
+            margin-top: 30px;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(255,165,0,0.4);
+        }
+
+        .view-all-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(255,165,0,0.5);
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 32px;
+            }
+            
+            .page-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .tech-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 头部 -->
+        <div class="header">
+            <h1>💰 贵金属回收小程序</h1>
+            <div class="subtitle">诚信经营 · 价格公道 · 专业回收</div>
+            <div class="version">Version 1.0.0 | 2025-11-03</div>
+            <a href="index.html" class="view-all-btn">查看原型图 →</a>
+        </div>
+
+        <!-- 页面卡片 -->
+        <div class="page-grid">
+            <a href="index.html" class="page-card">
+                <div class="page-icon icon-home">💰</div>
+                <div class="page-title">报价首页</div>
+                <div class="page-desc">展示店铺的回购和销售价格，以及店铺信息</div>
+                <ul class="page-features">
+                    <li>回购价格展示</li>
+                    <li>销售价格展示</li>
+                    <li>当日最高/最低价</li>
+                    <li>店铺地址和联系方式</li>
+                    <li>免责声明</li>
+                </ul>
+            </a>
+
+            <a href="appointment.html" class="page-card">
+                <div class="page-icon icon-appointment">📱</div>
+                <div class="page-title">预约回收</div>
+                <div class="page-desc">用户可以预约到店或上门回收服务</div>
+                <ul class="page-features">
+                    <li>选择回收品种</li>
+                    <li>预约时间选择</li>
+                    <li>到店/上门服务</li>
+                    <li>预约记录管理</li>
+                </ul>
+            </a>
+
+            <a href="calculator.html" class="page-card">
+                <div class="page-icon icon-calculator">🧮</div>
+                <div class="page-title">价格计算器</div>
+                <div class="page-desc">帮助用户快速估算贵金属的回收价值</div>
+                <ul class="page-features">
+                    <li>选择贵金属品种</li>
+                    <li>输入重量和成色</li>
+                    <li>实时计算价值</li>
+                    <li>计算历史记录</li>
+                </ul>
+            </a>
+
+            <a href="profile.html" class="page-card">
+                <div class="page-icon icon-profile">👤</div>
+                <div class="page-title">个人中心</div>
+                <div class="page-desc">用户信息、预约记录、回收历史等</div>
+                <ul class="page-features">
+                    <li>用户信息管理</li>
+                    <li>预约记录查询</li>
+                    <li>回收历史记录</li>
+                    <li>优惠券管理</li>
+                </ul>
+            </a>
+        </div>
+
+        <!-- 项目信息 -->
+        <div class="info-section">
+            <h2>🏪 项目定位</h2>
+            <div class="info-content">
+                <p>这是一个<strong>贵金属回收店铺的微信小程序原型图</strong>，主要用于：</p>
+                <ul class="info-list">
+                    <li><strong>展示报价：</strong>实时展示店铺的回购价格和销售价格</li>
+                    <li><strong>在线预约：</strong>用户可以预约到店或上门回收服务</li>
+                    <li><strong>价格计算：</strong>帮助用户快速估算贵金属的价值</li>
+                    <li><strong>店铺展示：</strong>展示店铺地址、联系方式、营业时间</li>
+                    <li><strong>客户管理：</strong>记录客户的预约和回收历史</li>
+                </ul>
+                <br>
+                <p><strong>适用场景：</strong>黄金回收店、典当行、贵金属交易商、珠宝回收门店等。</p>
+            </div>
+        </div>
+
+        <!-- 核心功能 -->
+        <div class="info-section">
+            <h2>✨ 核心功能</h2>
+            <div class="tech-grid">
+                <div class="tech-item">
+                    <div class="title">💰 价格展示</div>
+                    <div class="desc">回购价、销售价<br>当日高低价</div>
+                </div>
+                <div class="tech-item">
+                    <div class="title">📱 在线预约</div>
+                    <div class="desc">到店/上门回收<br>时间灵活选择</div>
+                </div>
+                <div class="tech-item">
+                    <div class="title">🧮 价格计算</div>
+                    <div class="desc">快速估值<br>克重换算</div>
+                </div>
+                <div class="tech-item">
+                    <div class="title">📍 店铺信息</div>
+                    <div class="desc">地址导航<br>电话联系</div>
+                </div>
+                <div class="tech-item">
+                    <div class="title">📜 交易记录</div>
+                    <div class="desc">回收历史<br>预约管理</div>
+                </div>
+                <div class="tech-item">
+                    <div class="title">⚠️ 免责声明</div>
+                    <div class="desc">价格说明<br>风险提示</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 技术建议 -->
+        <div class="info-section">
+            <h2>🚀 技术实现建议</h2>
+            <div class="tech-grid">
+                <div class="tech-item">
+                    <div class="title">前端框架</div>
+                    <div class="desc">微信小程序原生<br>uni-app / Taro</div>
+                </div>
+                <div class="tech-item">
+                    <div class="title">后端技术</div>
+                    <div class="desc">Node.js / Java<br>Spring Boot / Express</div>
+                </div>
+                <div class="tech-item">
+                    <div class="title">数据库</div>
+                    <div class="desc">MySQL / MongoDB<br>Redis 缓存</div>
+                </div>
+                <div class="tech-item">
+                    <div class="title">数据源</div>
+                    <div class="desc">贵金属价格API<br>手动更新报价</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 业务流程 -->
+        <div class="info-section">
+            <h2>🔄 业务流程</h2>
+            <div class="info-content">
+                <ul class="info-list">
+                    <li><strong>1. 查看报价：</strong>用户打开小程序，查看当前回购和销售价格</li>
+                    <li><strong>2. 估算价值：</strong>使用计算器估算自己物品的大致价值</li>
+                    <li><strong>3. 在线预约：</strong>填写预约信息，选择到店或上门回收</li>
+                    <li><strong>4. 确认预约：</strong>店铺工作人员联系确认预约详情</li>
+                    <li><strong>5. 现场鉴定：</strong>到店或上门进行专业鉴定和称重</li>
+                    <li><strong>6. 完成交易：</strong>确认价格后完成回收交易</li>
+                    <li><strong>7. 记录保存：</strong>交易记录保存在个人中心</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- 页脚 -->
+        <div class="footer">
+            <p>贵金属回收小程序原型图 | HTML版本</p>
+            <p>© 2025 诚信经营 · 价格公道</p>
+        </div>
+    </div>
+</body>
+</html>

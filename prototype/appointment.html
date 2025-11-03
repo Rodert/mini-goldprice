@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>预约回收 - 原型图</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #f5f5f5;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 375px;
+            margin: 0 auto;
+            background: #fff;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        }
+
+        /* 导航栏 */
+        .navbar {
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+            padding: 20px;
+            color: #fff;
+        }
+
+        .navbar h1 {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .navbar .subtitle {
+            font-size: 12px;
+            opacity: 0.9;
+        }
+
+        /* 表单区域 */
+        .form-section {
+            padding: 20px;
+        }
+
+        .form-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .form-label .required {
+            color: #FF4444;
+            margin-left: 4px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #FFA500;
+            box-shadow: 0 0 0 3px rgba(255,165,0,0.1);
+        }
+
+        textarea.form-input {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        /* 选择按钮组 */
+        .select-group {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+
+        .select-btn {
+            padding: 12px;
+            background: #f8f9fa;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .select-btn.active {
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+            border-color: #FFA500;
+            color: #fff;
+            font-weight: 600;
+        }
+
+        /* 时间选择 */
+        .time-slots {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .time-slot {
+            padding: 10px 8px;
+            background: #f8f9fa;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .time-slot.active {
+            background: #FFA500;
+            border-color: #FFA500;
+            color: #fff;
+            font-weight: 600;
+        }
+
+        .time-slot.disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        /* 提交按钮 */
+        .submit-btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+            color: #fff;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 30px;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255,165,0,0.4);
+        }
+
+        /* 预约记录 */
+        .records-section {
+            padding: 20px;
+            background: #f8f9fa;
+        }
+
+        .records-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .record-card {
+            background: #fff;
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .record-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .record-status {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .status-pending {
+            background: #FFF3E0;
+            color: #F57C00;
+        }
+
+        .status-confirmed {
+            background: #E8F5E9;
+            color: #2E7D32;
+        }
+
+        .record-info {
+            font-size: 13px;
+            color: #666;
+            line-height: 1.8;
+        }
+
+        .record-info div {
+            margin-bottom: 5px;
+        }
+
+        /* 底部导航 */
+        .bottom-nav {
+            display: flex;
+            background: #fff;
+            border-top: 1px solid #f0f0f0;
+            padding: 10px 0;
+        }
+
+        .bottom-nav-item {
+            flex: 1;
+            text-align: center;
+            padding: 8px 0;
+            cursor: pointer;
+        }
+
+        .bottom-nav-item .icon {
+            font-size: 24px;
+            margin-bottom: 4px;
+        }
+
+        .bottom-nav-item .label {
+            font-size: 11px;
+            color: #999;
+        }
+
+        .bottom-nav-item.active .icon {
+            color: #FFA500;
+        }
+
+        .bottom-nav-item.active .label {
+            color: #FFA500;
+            font-weight: 600;
+        }
+
+        /* 页面切换按钮 */
+        .page-switcher {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+
+        .page-btn {
+            display: block;
+            padding: 8px 15px;
+            background: #333;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 12px;
+            margin-bottom: 5px;
+            transition: all 0.3s;
+        }
+
+        .page-btn:hover {
+            background: #555;
+        }
+
+        .prototype-tip {
+            text-align: center;
+            padding: 15px;
+            background: #FFF9E6;
+            color: #D4A017;
+            font-size: 12px;
+            border-radius: 10px;
+            margin: 15px;
+        }
+
+        /* 服务说明 */
+        .service-info {
+            background: #E3F2FD;
+            padding: 15px;
+            margin: 15px 20px;
+            border-radius: 10px;
+            border-left: 4px solid #2196F3;
+        }
+
+        .service-info h4 {
+            font-size: 14px;
+            color: #1976D2;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .service-info ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .service-info li {
+            font-size: 12px;
+            color: #666;
+            padding: 5px 0;
+            padding-left: 16px;
+            position: relative;
+        }
+
+        .service-info li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #2196F3;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="page-switcher">
+        <a href="index.html" class="page-btn">首页</a>
+        <a href="appointment.html" class="page-btn">预约</a>
+        <a href="calculator.html" class="page-btn">计算器</a>
+        <a href="profile.html" class="page-btn">我的</a>
+    </div>
+
+    <div class="container">
+        <!-- 导航栏 -->
+        <div class="navbar">
+            <h1>预约回收</h1>
+            <div class="subtitle">提前预约，到店优先办理</div>
+        </div>
+
+        <div class="prototype-tip">
+            📱 这是预约页 - 用户可以预约上门或到店回收服务
+        </div>
+
+        <!-- 表单区域 -->
+        <div class="form-section">
+            <div class="form-title">
+                <span>📝</span>
+                <span>预约信息</span>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">
+                    回收品种
+                    <span class="required">*</span>
+                </label>
+                <div class="select-group">
+                    <div class="select-btn active">黄金</div>
+                    <div class="select-btn">白银</div>
+                    <div class="select-btn">铂金</div>
+                    <div class="select-btn">钯金</div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">
+                    预约方式
+                    <span class="required">*</span>
+                </label>
+                <div class="select-group">
+                    <div class="select-btn active">到店回收</div>
+                    <div class="select-btn">上门回收</div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">
+                    预约时间
+                    <span class="required">*</span>
+                </label>
+                <input type="text" class="form-input" placeholder="选择日期" value="2025-11-04">
+                <div class="time-slots">
+                    <div class="time-slot">09:00</div>
+                    <div class="time-slot active">10:00</div>
+                    <div class="time-slot">11:00</div>
+                    <div class="time-slot">13:00</div>
+                    <div class="time-slot">14:00</div>
+                    <div class="time-slot disabled">15:00</div>
+                    <div class="time-slot">16:00</div>
+                    <div class="time-slot">17:00</div>
+                    <div class="time-slot disabled">18:00</div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">
+                    您的姓名
+                    <span class="required">*</span>
+                </label>
+                <input type="text" class="form-input" placeholder="请输入您的姓名">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">
+                    联系电话
+                    <span class="required">*</span>
+                </label>
+                <input type="tel" class="form-input" placeholder="请输入您的联系电话">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">
+                    详细地址（上门回收必填）
+                </label>
+                <input type="text" class="form-input" placeholder="请输入详细地址">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">
+                    备注说明
+                </label>
+                <textarea class="form-input" placeholder="请简单描述您要回收的物品，如：黄金项链约30克、金条等"></textarea>
+            </div>
+
+            <button class="submit-btn">提交预约</button>
+        </div>
+
+        <!-- 服务说明 -->
+        <div class="service-info">
+            <h4>
+                <span>💡</span>
+                <span>预约服务说明</span>
+            </h4>
+            <ul>
+                <li>预约后工作人员会在30分钟内联系确认</li>
+                <li>到店回收无需任何费用，上门回收视情况收取服务费</li>
+                <li>请携带有效身份证件及物品相关票据</li>
+                <li>预约时间可提前2小时取消或改期</li>
+                <li>如有疑问请拨打客服热线：400-888-8888</li>
+            </ul>
+        </div>
+
+        <!-- 预约记录 -->
+        <div class="records-section">
+            <div class="records-title">我的预约记录</div>
+            
+            <div class="record-card">
+                <div class="record-header">
+                    <div style="font-weight: 600; color: #333;">黄金回收</div>
+                    <div class="record-status status-confirmed">已确认</div>
+                </div>
+                <div class="record-info">
+                    <div>📅 预约时间：2025-11-04 10:00</div>
+                    <div>📍 预约方式：到店回收</div>
+                    <div>📞 联系电话：138****0000</div>
+                </div>
+            </div>
+
+            <div class="record-card">
+                <div class="record-header">
+                    <div style="font-weight: 600; color: #333;">白银回收</div>
+                    <div class="record-status status-pending">待确认</div>
+                </div>
+                <div class="record-info">
+                    <div>📅 预约时间：2025-11-05 14:00</div>
+                    <div>📍 预约方式：上门回收</div>
+                    <div>📞 联系电话：138****0000</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 底部导航 -->
+        <div class="bottom-nav">
+            <div class="bottom-nav-item">
+                <div class="icon">💰</div>
+                <div class="label">报价</div>
+            </div>
+            <div class="bottom-nav-item active">
+                <div class="icon">📱</div>
+                <div class="label">预约</div>
+            </div>
+            <div class="bottom-nav-item">
+                <div class="icon">🧮</div>
+                <div class="label">计算器</div>
+            </div>
+            <div class="bottom-nav-item">
+                <div class="icon">👤</div>
+                <div class="label">我的</div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

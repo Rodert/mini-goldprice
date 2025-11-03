@@ -1,0 +1,164 @@
+<!-- pages/calculator/calculator.wxml -->
+<view class="calculator-page">
+  <!-- Tab切换 -->
+  <view class="tab-bar">
+    <view 
+      class="tab-item {{currentTab === 0 ? 'active' : ''}}"
+      bindtap="onTabChange"
+      data-index="0">
+      价值计算
+    </view>
+    <view 
+      class="tab-item {{currentTab === 1 ? 'active' : ''}}"
+      bindtap="onTabChange"
+      data-index="1">
+      计算历史
+    </view>
+  </view>
+
+  <!-- 价值计算页 -->
+  <view class="tab-content" wx:if="{{currentTab === 0}}">
+    <view class="calculator-form">
+      <!-- 选择品种 -->
+      <view class="form-section">
+        <text class="section-title">选择贵金属品种</text>
+        <picker 
+          range="{{metalList}}" 
+          range-key="name"
+          value="{{selectedMetalIndex}}"
+          bindchange="onMetalChange">
+          <view class="picker-view">
+            <text class="picker-text">{{selectedMetal.name || '请选择'}}</text>
+            <text class="picker-arrow">›</text>
+          </view>
+        </picker>
+      </view>
+
+      <!-- 当前价格 -->
+      <view class="current-price" wx:if="{{selectedMetal.name}}">
+        <view class="price-header">
+          <text class="header-label">当前回购价格</text>
+          <text class="header-time">{{updateTime}}</text>
+        </view>
+        <view class="price-row">
+          <text class="price-label">{{selectedMetal.name}} 回购价</text>
+          <text class="price-value">¥{{selectedMetal.buyPrice}} / 克</text>
+        </view>
+      </view>
+
+      <!-- 输入重量 -->
+      <view class="form-section">
+        <text class="section-title">输入重量（克）</text>
+        <view class="input-box">
+          <input 
+            class="input-field" 
+            type="digit" 
+            placeholder="请输入重量"
+            value="{{weight}}"
+            bindinput="onWeightInput" />
+          <text class="input-unit">克</text>
+        </view>
+        <view class="quick-btns">
+          <view 
+            class="quick-btn"
+            wx:for="{{quickWeights}}"
+            wx:key="*this"
+            bindtap="onQuickWeight"
+            data-weight="{{item}}">
+            {{item}}克
+          </view>
+        </view>
+      </view>
+
+      <!-- 成色系数 -->
+      <view class="form-section">
+        <text class="section-title">成色系数（可选）</text>
+        <view class="input-box">
+          <input 
+            class="input-field" 
+            type="digit" 
+            placeholder="100"
+            value="{{purity}}"
+            bindinput="onPurityInput" />
+          <text class="input-unit">%</text>
+        </view>
+        <view class="quick-btns">
+          <view 
+            class="quick-btn"
+            wx:for="{{quickPurities}}"
+            wx:key="*this"
+            bindtap="onQuickPurity"
+            data-purity="{{item}}">
+            {{item}}%
+          </view>
+        </view>
+      </view>
+
+      <!-- 计算按钮 -->
+      <button class="calc-btn" bindtap="onCalculate">计算价值</button>
+
+      <!-- 计算结果 -->
+      <view class="result-box" wx:if="{{result > 0}}">
+        <text class="result-label">预估回收价值</text>
+        <text class="result-value">¥{{result}}</text>
+        <text class="result-detail">{{formula}}</text>
+        <text class="result-tip">*最终价格以实物检测为准</text>
+      </view>
+
+      <!-- 使用说明 -->
+      <view class="tips-box">
+        <view class="tips-title">
+          <text class="tips-icon">💡</text>
+          <text class="tips-text">使用说明</text>
+        </view>
+        <view class="tips-content">
+          <text class="tip-item">1. 选择要回收的贵金属品种</text>
+          <text class="tip-item">2. 输入物品的重量（克）</text>
+          <text class="tip-item">3. 如知道成色可输入系数，不清楚可保持默认</text>
+          <text class="tip-item">4. 点击计算即可得到预估价值</text>
+          <text class="tip-item">5. 此计算器仅供参考，实际回收价格需要专业检测后确定</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 计算历史页 -->
+  <view class="tab-content" wx:if="{{currentTab === 1}}">
+    <view class="history-list" wx:if="{{historyList.length > 0}}">
+      <view class="history-item" wx:for="{{historyList}}" wx:key="id">
+        <view class="history-header">
+          <text class="history-name">{{item.metalName}}</text>
+          <text class="history-result">¥{{item.result}}</text>
+        </view>
+        <view class="history-detail">
+          <text class="detail-text">重量：{{item.weight}}克</text>
+          <text class="detail-text">成色：{{item.purity}}%</text>
+          <text class="detail-text">{{item.time}}</text>
+        </view>
+        <view class="history-actions">
+          <button 
+            class="action-btn"
+            bindtap="onUseHistory"
+            data-item="{{item}}">
+            使用此配置
+          </button>
+          <button 
+            class="action-btn delete"
+            bindtap="onDeleteHistory"
+            data-id="{{item.id}}">
+            删除
+          </button>
+        </view>
+      </view>
+    </view>
+
+    <view class="empty-state" wx:else>
+      <text class="empty-icon">🧮</text>
+      <text class="empty-text">暂无计算记录</text>
+      <button class="empty-btn" bindtap="onTabChange" data-index="0">
+        开始计算
+      </button>
+    </view>
+  </view>
+</view>
+

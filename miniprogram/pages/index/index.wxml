@@ -1,0 +1,148 @@
+<!-- pages/index/index.wxml -->
+<view class="index-page">
+  <!-- 顶部品牌栏 -->
+  <view class="brand-bar">
+    <view class="brand-info">
+      <text class="brand-logo">HJH</text>
+      <text class="brand-name">沪金汇</text>
+    </view>
+    <view class="qrcode-btn" bindtap="onPreviewQRCode" bindlongpress="onScanQRCode">
+      <image 
+        class="qrcode-image" 
+        src="{{qrcodeUrl}}" 
+        mode="aspectFit"
+        show-menu-by-longpress="{{true}}"></image>
+    </view>
+  </view>
+
+  <!-- 更新时间 -->
+  <view class="update-time">
+    <text class="time-icon">🕐</text>
+    <text class="time-text">更新时间: {{updateTime}}</text>
+    <text class="mock-badge">模拟数据</text>
+  </view>
+
+  <!-- 分类导航 -->
+  <scroll-view class="category-nav" scroll-x="true">
+    <view class="nav-list">
+      <view 
+        class="nav-item {{currentCategory === item.id ? 'active' : ''}}" 
+        wx:for="{{categories}}" 
+        wx:key="id"
+        bindtap="onCategoryChange"
+        data-id="{{item.id}}">
+        {{item.name}}
+      </view>
+    </view>
+  </scroll-view>
+
+  <!-- 价格列表 -->
+  <view class="price-list">
+    <view 
+      class="price-card" 
+      wx:for="{{displayList}}" 
+      wx:key="id"
+      bindtap="onPriceDetail"
+      data-item="{{item}}">
+      <!-- 左侧信息 -->
+      <view class="card-left">
+        <view class="metal-icon" style="background: {{item.iconColor}}">
+          {{item.icon}}
+        </view>
+        <view class="metal-info">
+          <text class="metal-name">{{item.name}}</text>
+          <text class="metal-subtitle">{{item.subtitle}}</text>
+        </view>
+      </view>
+
+      <!-- 右侧价格 -->
+      <view class="card-right">
+        <view class="price-row">
+          <view class="price-box buy">
+            <text class="price-label">回购价</text>
+            <text class="price-value">¥{{item.buyPrice}}</text>
+          </view>
+          <view class="price-box sell">
+            <text class="price-label">销售价</text>
+            <text class="price-value">¥{{item.sellPrice}}</text>
+          </view>
+        </view>
+        <view class="price-range">
+          <text class="range-item">
+            <text class="range-label">高</text>
+            <text class="range-value">¥{{item.highPrice}}</text>
+          </text>
+          <text class="range-item">
+            <text class="range-label">低</text>
+            <text class="range-value">¥{{item.lowPrice}}</text>
+          </text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 店铺信息 -->
+  <view class="store-info card">
+    <view class="store-title">
+      <text class="title-icon">🏪</text>
+      <text class="title-text">门店信息</text>
+    </view>
+    
+    <view class="info-item" bindtap="onViewAddress">
+      <text class="item-icon">📍</text>
+      <view class="item-content">
+        <text class="item-label">收购地址</text>
+        <text class="item-value">{{storeInfo.address}}</text>
+      </view>
+      <text class="item-arrow">›</text>
+    </view>
+
+    <view class="info-item" bindtap="onCallPhone">
+      <text class="item-icon">📞</text>
+      <view class="item-content">
+        <text class="item-label">联系电话</text>
+        <text class="item-value">{{storeInfo.phone}}</text>
+      </view>
+      <text class="item-arrow">›</text>
+    </view>
+
+    <view class="info-item">
+      <text class="item-icon">🕐</text>
+      <view class="item-content">
+        <text class="item-label">营业时间</text>
+        <text class="item-value">{{storeInfo.hours}}</text>
+      </view>
+    </view>
+
+    <view class="action-buttons">
+      <button class="action-btn primary" bindtap="onCallPhone">
+        <text class="btn-icon">📱</text>
+        <text class="btn-text">拨打电话</text>
+      </button>
+      <button class="action-btn" bindtap="onViewAddress">
+        <text class="btn-icon">🗺️</text>
+        <text class="btn-text">导航到店</text>
+      </button>
+    </view>
+  </view>
+
+  <!-- 免责声明 -->
+  <view class="disclaimer card">
+    <view class="disclaimer-title">
+      <text class="title-icon">⚠️</text>
+      <text class="title-text">免责声明</text>
+    </view>
+    <view class="disclaimer-content">
+      <text class="disclaimer-item disclaimer-highlight">⚠️ 当前展示的价格为模拟数据，仅供演示参考。正式使用前请对接后端API获取真实价格。</text>
+      <text class="disclaimer-item">1. 本页面展示的价格仅供参考，实际回收价格以到店当面检测为准。</text>
+      <text class="disclaimer-item">2. 贵金属价格随国际行情波动，我们会根据实时市场行情调整报价。</text>
+      <text class="disclaimer-item">3. 回收价格会根据成色、重量、品牌等因素有所差异，具体以实物鉴定为准。</text>
+      <text class="disclaimer-item">4. 请携带有效身份证件及相关票据到店办理回收业务。</text>
+      <text class="disclaimer-item">5. 本店承诺诚信经营，公平交易，欢迎监督。</text>
+    </view>
+  </view>
+
+  <!-- 占位符，防止内容被tabbar遮挡 -->
+  <view style="height: 40rpx;"></view>
+</view>
+

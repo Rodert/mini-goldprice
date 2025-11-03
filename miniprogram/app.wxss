@@ -1,0 +1,202 @@
+/* 全局样式 */
+page {
+  background-color: #f5f5f5;
+  font-family: -apple-system-font, "Helvetica Neue", sans-serif;
+  font-size: 16px;
+}
+
+/* 容器 */
+.container {
+  padding: 20rpx;
+}
+
+/* 卡片 */
+.card {
+  background: #ffffff;
+  border-radius: 20rpx;
+  padding: 30rpx;
+  margin-bottom: 20rpx;
+  box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.05);
+}
+
+/* 按钮 */
+.btn {
+  padding: 24rpx 40rpx;
+  border-radius: 20rpx;
+  font-size: 28rpx;
+  font-weight: 600;
+  text-align: center;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+  color: #ffffff;
+}
+
+.btn-secondary {
+  background: #f8f9fa;
+  color: #333333;
+  border: 2rpx solid #e0e0e0;
+}
+
+/* 文本 */
+.text-primary {
+  color: #FFA500;
+}
+
+.text-success {
+  color: #22C55E;
+}
+
+.text-danger {
+  color: #FF4444;
+}
+
+.text-muted {
+  color: #999999;
+}
+
+.text-center {
+  text-align: center;
+}
+
+/* 间距 */
+.mt-10 {
+  margin-top: 10rpx;
+}
+
+.mt-20 {
+  margin-top: 20rpx;
+}
+
+.mt-30 {
+  margin-top: 30rpx;
+}
+
+.mb-10 {
+  margin-bottom: 10rpx;
+}
+
+.mb-20 {
+  margin-bottom: 20rpx;
+}
+
+.mb-30 {
+  margin-bottom: 30rpx;
+}
+
+.ml-10 {
+  margin-left: 10rpx;
+}
+
+.mr-10 {
+  margin-right: 10rpx;
+}
+
+/* Flex布局 */
+.flex {
+  display: flex;
+}
+
+.flex-row {
+  flex-direction: row;
+}
+
+.flex-column {
+  flex-direction: column;
+}
+
+.flex-center {
+  align-items: center;
+  justify-content: center;
+}
+
+.flex-between {
+  justify-content: space-between;
+}
+
+.flex-around {
+  justify-content: space-around;
+}
+
+.flex-1 {
+  flex: 1;
+}
+
+/* 分割线 */
+.divider {
+  height: 1rpx;
+  background-color: #f0f0f0;
+  margin: 20rpx 0;
+}
+
+/* 空状态 */
+.empty-state {
+  padding: 120rpx 40rpx;
+  text-align: center;
+}
+
+.empty-icon {
+  font-size: 120rpx;
+  opacity: 0.3;
+  margin-bottom: 20rpx;
+}
+
+.empty-text {
+  font-size: 28rpx;
+  color: #999999;
+}
+
+/* 加载中 */
+.loading {
+  padding: 80rpx;
+  text-align: center;
+}
+
+/* 价格样式 */
+.price {
+  font-weight: 700;
+  font-family: 'DIN', Arial, sans-serif;
+}
+
+.price-large {
+  font-size: 72rpx;
+}
+
+.price-medium {
+  font-size: 48rpx;
+}
+
+.price-small {
+  font-size: 32rpx;
+}
+
+/* 标签 */
+.tag {
+  display: inline-block;
+  padding: 8rpx 20rpx;
+  border-radius: 30rpx;
+  font-size: 24rpx;
+  font-weight: 600;
+}
+
+.tag-success {
+  background: #E8F5E9;
+  color: #2E7D32;
+}
+
+.tag-warning {
+  background: #FFF3E0;
+  color: #F57C00;
+}
+
+.tag-danger {
+  background: #FFEBEE;
+  color: #C62828;
+}
+
+.tag-info {
+  background: #E3F2FD;
+  color: #1976D2;
+}
+

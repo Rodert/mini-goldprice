@@ -1,0 +1,130 @@
+<!-- pages/appointment/appointment.wxml -->
+<view class="appointment-page">
+  <view class="page-header">
+    <text class="header-title">沪金汇 · 预约服务</text>
+    <text class="header-subtitle">提前预约，到店优先办理</text>
+  </view>
+
+  <view class="form-container">
+    <!-- 回收品种 -->
+    <view class="form-item">
+      <text class="item-label">回收品种 <text class="required">*</text></text>
+      <picker 
+        range="{{metalList}}" 
+        range-key="name"
+        value="{{form.metalIndex}}"
+        bindchange="onMetalChange">
+        <view class="picker-view">
+          <text class="picker-text">{{form.metalName || '请选择贵金属品种'}}</text>
+          <text class="picker-arrow">›</text>
+        </view>
+      </picker>
+    </view>
+
+    <!-- 预约方式 -->
+    <view class="form-item">
+      <text class="item-label">预约方式 <text class="required">*</text></text>
+      <view class="radio-group">
+        <view 
+          class="radio-item {{form.serviceType === 'store' ? 'active' : ''}}"
+          bindtap="onServiceTypeChange"
+          data-type="store">
+          <text class="radio-icon">{{form.serviceType === 'store' ? '✓' : ''}}</text>
+          <text class="radio-text">到店回收</text>
+        </view>
+        <view 
+          class="radio-item {{form.serviceType === 'home' ? 'active' : ''}}"
+          bindtap="onServiceTypeChange"
+          data-type="home">
+          <text class="radio-icon">{{form.serviceType === 'home' ? '✓' : ''}}</text>
+          <text class="radio-text">上门回收</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 预约时间 -->
+    <view class="form-item">
+      <text class="item-label">预约日期 <text class="required">*</text></text>
+      <picker 
+        mode="date"
+        start="{{minDate}}"
+        value="{{form.date}}"
+        bindchange="onDateChange">
+        <view class="picker-view">
+          <text class="picker-text">{{form.date || '请选择日期'}}</text>
+          <text class="picker-arrow">›</text>
+        </view>
+      </picker>
+    </view>
+
+    <view class="form-item">
+      <text class="item-label">预约时间 <text class="required">*</text></text>
+      <picker 
+        range="{{timeSlots}}"
+        value="{{form.timeIndex}}"
+        bindchange="onTimeChange">
+        <view class="picker-view">
+          <text class="picker-text">{{form.time || '请选择时间段'}}</text>
+          <text class="picker-arrow">›</text>
+        </view>
+      </picker>
+    </view>
+
+    <!-- 联系信息 -->
+    <view class="form-item">
+      <text class="item-label">您的姓名 <text class="required">*</text></text>
+      <input 
+        class="input-field" 
+        placeholder="请输入姓名"
+        value="{{form.name}}"
+        bindinput="onNameInput" />
+    </view>
+
+    <view class="form-item">
+      <text class="item-label">联系电话 <text class="required">*</text></text>
+      <input 
+        class="input-field" 
+        type="number"
+        placeholder="请输入手机号"
+        value="{{form.phone}}"
+        bindinput="onPhoneInput" />
+    </view>
+
+    <view class="form-item" wx:if="{{form.serviceType === 'home'}}">
+      <text class="item-label">详细地址 <text class="required">*</text></text>
+      <textarea 
+        class="textarea-field" 
+        placeholder="请输入详细地址"
+        value="{{form.address}}"
+        bindinput="onAddressInput" />
+    </view>
+
+    <view class="form-item">
+      <text class="item-label">备注说明</text>
+      <textarea 
+        class="textarea-field" 
+        placeholder="请简单描述您要回收的物品"
+        value="{{form.note}}"
+        bindinput="onNoteInput" />
+    </view>
+
+    <!-- 提交按钮 -->
+    <button class="submit-btn" bindtap="onSubmit">提交预约</button>
+  </view>
+
+  <!-- 服务说明 -->
+  <view class="service-tips card">
+    <view class="tips-title">
+      <text class="tips-icon">💡</text>
+      <text class="tips-text">预约服务说明</text>
+    </view>
+    <view class="tips-content">
+      <text class="tip-item">• 预约后工作人员会在30分钟内联系确认</text>
+      <text class="tip-item">• 到店回收无需任何费用</text>
+      <text class="tip-item">• 上门回收视情况收取服务费</text>
+      <text class="tip-item">• 请携带有效身份证件及物品相关票据</text>
+      <text class="tip-item">• 预约时间可提前2小时取消或改期</text>
+    </view>
+  </view>
+</view>
+
