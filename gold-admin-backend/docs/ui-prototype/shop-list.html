@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>店铺管理 - 沪金汇管理后台</title>
+    <link rel="stylesheet" href="common.css">
+</head>
+<body>
+    <div class="container">
+        <h1 class="page-title">🏪 店铺管理</h1>
+
+        <div class="table-container">
+            <div class="table-header">
+                <div class="table-title">店铺列表</div>
+                <div class="table-actions">
+                    <button class="btn btn-success" onclick="alert('打开新增店铺对话框')">➕ 新增店铺</button>
+                </div>
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th style="width: 60px;">ID</th>
+                        <th>店铺名称</th>
+                        <th>店铺编码</th>
+                        <th>地址</th>
+                        <th>联系方式</th>
+                        <th>营业时间</th>
+                        <th>状态</th>
+                        <th>排序</th>
+                        <th style="width: 200px;">操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>
+                            <div style="font-weight: 500; margin-bottom: 3px;">🏪 沪金汇1店（总店）</div>
+                            <div style="font-size: 11px; color: #999;">创建于 2025-01-01</div>
+                        </td>
+                        <td><code>shop1</code></td>
+                        <td style="max-width: 200px;">
+                            <div style="margin-bottom: 3px;">📍 上海市静安区XX路123号</div>
+                            <div style="font-size: 11px; color: #999;">
+                                经纬度: 31.2304, 121.4737
+                            </div>
+                        </td>
+                        <td>
+                            <div>☎️ 400-888-8888</div>
+                            <div style="font-size: 12px; color: #999;">📱 138-0000-0001</div>
+                        </td>
+                        <td>
+                            <div style="font-size: 13px;">🕐 周一至周日</div>
+                            <div style="font-size: 12px; color: #999;">09:00 - 18:00</div>
+                        </td>
+                        <td><span class="tag tag-success">营业中</span></td>
+                        <td>1</td>
+                        <td>
+                            <button class="btn btn-text" onclick="alert('编辑店铺')">✏️ 编辑</button>
+                            <button class="btn btn-text" onclick="alert('查看地图')">🗺️ 地图</button>
+                            <button class="btn btn-text" onclick="confirm('禁用该店铺？')">🚫 禁用</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>
+                            <div style="font-weight: 500; margin-bottom: 3px;">🏪 沪金汇2店</div>
+                            <div style="font-size: 11px; color: #999;">创建于 2025-02-15</div>
+                        </td>
+                        <td><code>shop2</code></td>
+                        <td style="max-width: 200px;">
+                            <div style="margin-bottom: 3px;">📍 上海市徐汇区YY路456号</div>
+                            <div style="font-size: 11px; color: #999;">
+                                经纬度: 31.1886, 121.4358
+                            </div>
+                        </td>
+                        <td>
+                            <div>☎️ 400-888-8889</div>
+                            <div style="font-size: 12px; color: #999;">📱 138-0000-0002</div>
+                        </td>
+                        <td>
+                            <div style="font-size: 13px;">🕐 周一至周日</div>
+                            <div style="font-size: 12px; color: #999;">09:00 - 18:00</div>
+                        </td>
+                        <td><span class="tag tag-success">营业中</span></td>
+                        <td>2</td>
+                        <td>
+                            <button class="btn btn-text" onclick="alert('编辑店铺')">✏️ 编辑</button>
+                            <button class="btn btn-text" onclick="alert('查看地图')">🗺️ 地图</button>
+                            <button class="btn btn-text" onclick="confirm('删除该店铺？')">🗑️ 删除</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>
+                            <div style="font-weight: 500; margin-bottom: 3px;">🏪 沪金汇3店</div>
+                            <div style="font-size: 11px; color: #999;">创建于 2025-03-20</div>
+                        </td>
+                        <td><code>shop3</code></td>
+                        <td style="max-width: 200px;">
+                            <div style="margin-bottom: 3px;">📍 上海市浦东新区ZZ路789号</div>
+                            <div style="font-size: 11px; color: #999;">
+                                经纬度: 31.2231, 121.5397
+                            </div>
+                        </td>
+                        <td>
+                            <div>☎️ 400-888-8890</div>
+                            <div style="font-size: 12px; color: #999;">📱 138-0000-0003</div>
+                        </td>
+                        <td>
+                            <div style="font-size: 13px;">🕐 周一至周六</div>
+                            <div style="font-size: 12px; color: #999;">10:00 - 19:00</div>
+                        </td>
+                        <td><span class="tag tag-danger">已停业</span></td>
+                        <td>3</td>
+                        <td>
+                            <button class="btn btn-text" onclick="alert('编辑店铺')">✏️ 编辑</button>
+                            <button class="btn btn-text" style="color: #67c23a;" onclick="confirm('启用该店铺？')">✅ 启用</button>
+                            <button class="btn btn-text" onclick="confirm('删除该店铺？')">🗑️ 删除</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="pagination">
+                <button class="page-btn">上一页</button>
+                <button class="page-btn active">1</button>
+                <button class="page-btn">下一页</button>
+                <span style="margin-left: 20px; color: #666; font-size: 14px;">共 3 家店铺</span>
+            </div>
+        </div>
+
+        <div class="card" style="margin-top: 20px;">
+            <h3 style="margin-bottom: 15px; color: #333;">📌 说明</h3>
+            <ul style="margin-left: 20px; color: #666; line-height: 1.8;">
+                <li>新增店铺后，系统会自动创建对应的菜单权限</li>
+                <li>店铺编码（如 shop1）用于系统内部标识，创建后不可修改</li>
+                <li>经纬度用于小程序端的导航功能</li>
+                <li>禁用店铺后，该店铺相关菜单将对普通用户隐藏</li>
+                <li>删除店铺前请确保已处理完所有业务数据</li>
+            </ul>
+        </div>
+
+        <div class="back-btn-container">
+            <a href="index.html" class="back-btn">← 返回导航</a>
+            <a href="layout.html" class="back-btn" style="background: #667eea;">返回框架</a>
+        </div>
+    </div>
+</body>
+</html>
+
+
+

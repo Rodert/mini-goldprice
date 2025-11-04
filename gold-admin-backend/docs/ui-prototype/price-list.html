@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>价格管理 - 沪金汇管理后台</title>
+    <link rel="stylesheet" href="common.css">
+    <style>
+        .price-card {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            transition: transform 0.3s;
+        }
+        .price-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        .price-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            margin-bottom: 15px;
+        }
+        .price-name {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .price-subtitle {
+            font-size: 12px;
+            color: #999;
+            margin-bottom: 15px;
+        }
+        .price-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .price-row:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        .price-label {
+            font-size: 13px;
+            color: #666;
+        }
+        .price-value {
+            font-size: 16px;
+            font-weight: bold;
+            color: #FFD700;
+        }
+        .price-time {
+            font-size: 12px;
+            color: #999;
+            margin-bottom: 15px;
+        }
+        .price-actions {
+            display: flex;
+            gap: 10px;
+        }
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="page-title">💰 价格管理</h1>
+
+        <div class="card" style="margin-bottom: 20px;">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                    <div style="font-size: 14px; color: #666; margin-bottom: 5px;">
+                        📌 最后更新时间：<strong style="color: #FFD700;">2025-11-04 14:30:15</strong>
+                    </div>
+                    <div style="font-size: 12px; color: #999;">
+                        💡 价格 = 基础价 ± 差价（回购差价通常为负，销售差价通常为正）
+                    </div>
+                </div>
+                <div style="display: flex; gap: 10px;">
+                    <button class="btn btn-success" onclick="showAddMetalDialog()">➕ 新增品种</button>
+                    <button class="btn btn-warning" onclick="alert('同步国际金价作为基础价')">🔄 刷新基础价</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid-container">
+            <!-- 黄金9999 -->
+            <div class="price-card">
+                <div class="price-icon" style="background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%); color: white;">
+                    Au
+                </div>
+                <div class="price-name">黄金9999</div>
+                <div class="price-subtitle">Au9999 · 千足金</div>
+                
+                <div class="price-row" style="background: #f5f5f5; margin: -5px; padding: 10px; border-radius: 4px; margin-bottom: 10px;">
+                    <span class="price-label">基础价</span>
+                    <span class="price-value" style="color: #409eff;">¥560.00/克</span>
+                </div>
+                <div class="price-row">
+                    <span class="price-label">回购差价</span>
+                    <span style="font-size: 14px; color: #f56c6c;">-10.00</span>
+                </div>
+                <div class="price-row">
+                    <span class="price-label">回购价</span>
+                    <span class="price-value">¥550.00/克</span>
+                </div>
+                <div class="price-row">
+                    <span class="price-label">销售差价</span>
+                    <span style="font-size: 14px; color: #67c23a;">+15.00</span>
+                </div>
+                <div class="price-row">
+                    <span class="price-label">销售价</span>
+                    <span class="price-value" style="color: #67c23a;">¥575.00/克</span>
+                </div>
+
+                <div class="price-time">
+                    <div style="margin-bottom: 3px;">唯一标识: <code style="color: #409eff;">gold_9999</code></div>
+                    <div>更新于 2025-11-04 14:30</div>
+                </div>
+
+                <div class="price-actions">
+                    <button class="btn btn-primary" style="flex: 1;" onclick="showEditPriceDialog('gold_9999')">✏️ 编辑</button>
+                    <button class="btn btn-info" onclick="alert('查看历史')">📊</button>
+                    <button class="btn btn-danger" onclick="confirm('确定删除该品种吗？')">🗑️</button>
+                </div>
+            </div>
+
+            <!-- 黄金T+D -->
+            <div class="price-card">
+                <div class="price-icon" style="background: linear-gradient(135deg, #FFA500 0%, #FF8C00 100%); color: white;">
+                    Au
+                </div>
+                <div class="price-name">黄金T+D</div>
+                <div class="price-subtitle">上海黄金交易所</div>
+                
+                <div class="price-row" style="background: #f5f5f5; margin: -5px; padding: 10px; border-radius: 4px; margin-bottom: 10px;">
+                    <span class="price-label">基础价</span>
+                    <span class="price-value" style="color: #409eff;">¥558.00/克</span>
+                </div>
+                <div class="price-row">
+                    <span class="price-label">回购差价</span>
+                    <span style="font-size: 14px; color: #f56c6c;">-12.00</span>
+                </div>
+                <div class="price-row">
+                    <span class="price-label">回购价</span>
+                    <span class="price-value">¥546.00/克</span>
+                </div>
+                <div class="price-row">
+                    <span class="price-label">销售差价</span>
+                    <span style="font-size: 14px; color: #67c23a;">+18.00</span>
+                </div>
+                <div class="price-row">
+                    <span class="price-label">销售价</span>
+                    <span class="price-value" style="color: #67c23a;">¥576.00/克</span>
+                </div>
+
+                <div class="price-time">
+                    <div style="margin-bottom: 3px;">唯一标识: <code style="color: #409eff;">gold_td</code></div>
+                    <div>更新于 2025-11-04 14:28</div>
+                </div>
+
+                <div class="price-actions">
+                    <button class="btn btn-primary" style="flex: 1;" onclick="showEditPriceDialog('gold_td')">✏️ 编辑</button>
+                    <button class="btn btn-info" onclick="alert('查看历史')">📊</button>
+                    <button class="btn btn-danger" onclick="confirm('确定删除该品种吗？')">🗑️</button>
+                </div>
+            </div>
+
+            <!-- 白银 -->
+            <div class="price-card">
+                <div class="price-icon" style="background: linear-gradient(135deg, #C0C0C0 0%, #A8A8A8 100%); color: white;">
+                    Ag
+                </div>
+                <div class="price-name">白银</div>
+                <div class="price-subtitle">Ag999 · 纯银</div>
+                
+                <div class="price-row" style="background: #f5f5f5; margin: -5px; padding: 10px; border-radius: 4px; margin-bottom: 10px;">
+                    <span class="price-label">基础价</span>
+                    <span class="price-value" style="color: #409eff;">¥7.00/克</span>
+                </div>
+                <div class="price-row">
+                    <span class="price-label">回购差价</span>
+                    <span style="font-size: 14px; color: #f56c6c;">-0.30</span>
+                </div>
+                <div class="price-row">
+                    <span class="price-label">回购价</span>
+                    <span class="price-value">¥6.70/克</span>
+                </div>
+                <div class="price-row">
+                    <span class="price-label">销售差价</span>
+                    <span style="font-size: 14px; color: #67c23a;">+0.50</span>
+                </div>
+                <div class="price-row">
+                    <span class="price-label">销售价</span>
+                    <span class="price-value" style="color: #67c23a;">¥7.50/克</span>
+                </div>
+
+                <div class="price-time">
+                    <div style="margin-bottom: 3px;">唯一标识: <code style="color: #409eff;">silver_999</code></div>
+                    <div>更新于 2025-11-04 14:30</div>
+                </div>
+
+                <div class="price-actions">
+                    <button class="btn btn-primary" style="flex: 1;" onclick="showEditPriceDialog('silver_999')">✏️ 编辑</button>
+                    <button class="btn btn-info" onclick="alert('查看历史')">📊</button>
+                    <button class="btn btn-danger" onclick="confirm('确定删除该品种吗？')">🗑️</button>
+                </div>
+            </div>
+
+            <!-- 铂金 -->
+            <div class="price-card">
+                <div class="price-icon" style="background: linear-gradient(135deg, #E5E4E2 0%, #B0B0B0 100%); color: white;">
+                    Pt
+                </div>
+                <div class="price-name">铂金</div>
+                <div class="price-subtitle">Platinum · 白金</div>
+                
+                <div class="price-row" style="background: #f5f5f5; margin: -5px; padding: 10px; border-radius: 4px; margin-bottom: 10px;">
+                    <span class="price-label">基础价</span>
+                    <span class="price-value" style="color: #409eff;">¥225.00/克</span>
+                </div>
+                <div class="price-row">
+                    <span class="price-label">回购差价</span>
+                    <span style="font-size: 14px; color: #f56c6c;">-8.00</span>
+                </div>
+                <div class="price-row">
+                    <span class="price-label">回购价</span>
+                    <span class="price-value">¥217.00/克</span>
+                </div>
+                <div class="price-row">
+                    <span class="price-label">销售差价</span>
+                    <span style="font-size: 14px; color: #67c23a;">+12.00</span>
+                </div>
+                <div class="price-row">
+                    <span class="price-label">销售价</span>
+                    <span class="price-value" style="color: #67c23a;">¥237.00/克</span>
+                </div>
+
+                <div class="price-time">
+                    <div style="margin-bottom: 3px;">唯一标识: <code style="color: #409eff;">platinum_950</code></div>
+                    <div>更新于 2025-11-04 14:25</div>
+                </div>
+
+                <div class="price-actions">
+                    <button class="btn btn-primary" style="flex: 1;" onclick="showEditPriceDialog('platinum_950')">✏️ 编辑</button>
+                    <button class="btn btn-info" onclick="alert('查看历史')">📊</button>
+                    <button class="btn btn-danger" onclick="confirm('确定删除该品种吗？')">🗑️</button>
+                </div>
+            </div>
+
+            <!-- 钯金 -->
+            <div class="price-card">
+                <div class="price-icon" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+                    Pd
+                </div>
+                <div class="price-name">钯金</div>
+                <div class="price-subtitle">Palladium</div>
+                
+                <div class="price-row" style="background: #f5f5f5; margin: -5px; padding: 10px; border-radius: 4px; margin-bottom: 10px;">
+                    <span class="price-label">基础价</span>
+                    <span class="price-value" style="color: #409eff;">¥420.00/克</span>
+                </div>
+                <div class="price-row">
+                    <span class="price-label">回购差价</span>
+                    <span style="font-size: 14px; color: #f56c6c;">-15.00</span>
+                </div>
+                <div class="price-row">
+                    <span class="price-label">回购价</span>
+                    <span class="price-value">¥405.00/克</span>
+                </div>
+                <div class="price-row">
+                    <span class="price-label">销售差价</span>
+                    <span style="font-size: 14px; color: #67c23a;">+22.00</span>
+                </div>
+                <div class="price-row">
+                    <span class="price-label">销售价</span>
+                    <span class="price-value" style="color: #67c23a;">¥442.00/克</span>
+                </div>
+
+                <div class="price-time">
+                    <div style="margin-bottom: 3px;">唯一标识: <code style="color: #409eff;">palladium_950</code></div>
+                    <div>更新于 2025-11-04 14:20</div>
+                </div>
+
+                <div class="price-actions">
+                    <button class="btn btn-primary" style="flex: 1;" onclick="showEditPriceDialog('palladium_950')">✏️ 编辑</button>
+                    <button class="btn btn-info" onclick="alert('查看历史')">📊</button>
+                    <button class="btn btn-danger" onclick="confirm('确定删除该品种吗？')">🗑️</button>
+                </div>
+            </div>
+
+            <!-- 美元兑换（参考，可删除） -->
+            <div class="price-card" style="opacity: 0.8;">
+                <div class="price-icon" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); color: white;">
+                    $
+                </div>
+                <div class="price-name">美元汇率</div>
+                <div class="price-subtitle">USD/CNY · 仅供参考</div>
+                
+                <div class="price-row" style="background: #f5f5f5; margin: -5px; padding: 10px; border-radius: 4px; margin-bottom: 10px;">
+                    <span class="price-label">当前汇率</span>
+                    <span class="price-value" style="color: #409eff;">¥7.24</span>
+                </div>
+                <div class="price-row">
+                    <span class="price-label">今日开盘</span>
+                    <span style="font-size: 14px; color: #909399;">7.22</span>
+                </div>
+                <div class="price-row">
+                    <span class="price-label">涨跌</span>
+                    <span style="font-size: 14px; color: #67c23a;">+0.02</span>
+                </div>
+
+                <div class="price-time">
+                    <div style="margin-bottom: 3px;">唯一标识: <code style="color: #409eff;">usd_cny</code></div>
+                    <div>更新于 2025-11-04 14:30</div>
+                </div>
+
+                <div class="price-actions">
+                    <button class="btn btn-info" style="flex: 1;" onclick="alert('汇率仅供参考')">📊 查看</button>
+                    <button class="btn btn-danger" onclick="confirm('确定删除？')">🗑️</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="back-btn-container">
+            <a href="index.html" class="back-btn">← 返回导航</a>
+            <a href="layout.html" class="back-btn" style="background: #667eea;">返回框架</a>
+        </div>
+    </div>
+
+    <script>
+        // 新增品种对话框
+        function showAddMetalDialog() {
+            const html = `
+===========================================
+          新增贵金属品种
+===========================================
+
+品种名称: 黄金9999
+唯一标识: gold_9999 (仅英文、数字、下划线)
+副标题: Au9999 · 千足金
+图标: Au
+图标颜色: #FFD700
+
+基础价格: 560.00 (元/克)
+回购差价: -10.00 (负数表示低于基础价)
+销售差价: +15.00 (正数表示高于基础价)
+
+计算结果:
+- 回购价 = 560.00 + (-10.00) = 550.00
+- 销售价 = 560.00 + 15.00 = 575.00
+
+排序: 1
+状态: ☑ 启用
+
+===========================================
+            `;
+            alert(html);
+        }
+
+        // 编辑价格对话框
+        function showEditPriceDialog(code) {
+            const prices = {
+                'gold_9999': {
+                    name: '黄金9999',
+                    base: 560.00,
+                    buyDiff: -10.00,
+                    sellDiff: 15.00
+                },
+                'gold_td': {
+                    name: '黄金T+D',
+                    base: 558.00,
+                    buyDiff: -12.00,
+                    sellDiff: 18.00
+                },
+                'silver_999': {
+                    name: '白银999',
+                    base: 7.00,
+                    buyDiff: -0.30,
+                    sellDiff: 0.50
+                }
+            };
+
+            const price = prices[code] || prices['gold_9999'];
+            const buyPrice = (price.base + price.buyDiff).toFixed(2);
+            const sellPrice = (price.base + price.sellDiff).toFixed(2);
+
+            const html = `
+===========================================
+      编辑价格 - ${price.name}
+===========================================
+
+唯一标识: ${code}
+
+基础价格: ${price.base} (元/克)
+  └─ 来源：国际金价/市场价
+
+回购差价: ${price.buyDiff} (元/克)
+  └─ 计算：回购价 = ${price.base} + (${price.buyDiff}) = ${buyPrice}
+
+销售差价: ${price.sellDiff} (元/克)
+  └─ 计算：销售价 = ${price.base} + ${price.sellDiff} = ${sellPrice}
+
+💡 提示：
+- 回购差价通常为负数（低于基础价收购）
+- 销售差价通常为正数（高于基础价出售）
+- 修改差价后自动计算最终价格
+
+===========================================
+            `;
+            alert(html);
+        }
+    </script>
+</body>
+</html>
+

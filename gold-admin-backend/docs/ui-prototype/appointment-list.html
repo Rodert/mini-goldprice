@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>预约管理 - 沪金汇管理后台</title>
+    <link rel="stylesheet" href="common.css">
+</head>
+<body>
+    <div class="container">
+        <h1 class="page-title">📅 预约管理</h1>
+
+        <div class="table-container">
+            <div class="table-header">
+                <div class="table-title">预约列表</div>
+                <div class="table-actions">
+                    <div class="search-box">
+                        <select class="search-input" style="width: 120px;">
+                            <option value="">全部状态</option>
+                            <option value="pending">待处理</option>
+                            <option value="confirmed">已确认</option>
+                            <option value="completed">已完成</option>
+                            <option value="cancelled">已取消</option>
+                        </select>
+                        <select class="search-input" style="width: 120px;">
+                            <option value="">全部店铺</option>
+                            <option value="shop1">沪金汇1店</option>
+                            <option value="shop2">沪金汇2店</option>
+                        </select>
+                        <input type="text" class="search-input" placeholder="搜索客户姓名/电话" style="width: 180px;">
+                        <button class="btn btn-primary">🔍 搜索</button>
+                    </div>
+                </div>
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th style="width: 60px;">ID</th>
+                        <th>客户信息</th>
+                        <th>回收品种</th>
+                        <th>预约方式</th>
+                        <th>预约时间</th>
+                        <th>备注</th>
+                        <th>状态</th>
+                        <th>店铺</th>
+                        <th>创建时间</th>
+                        <th style="width: 200px;">操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>
+                            <div style="font-weight: 500;">张先生</div>
+                            <div style="font-size: 12px; color: #999;">138****1234</div>
+                        </td>
+                        <td><span class="tag" style="background: #fff4e6; color: #FFA500;">黄金</span></td>
+                        <td>
+                            <span style="display: flex; align-items: center; gap: 5px;">
+                                🏠 上门回收
+                            </span>
+                            <div style="font-size: 11px; color: #999; margin-top: 3px;">
+                                上海市静安区XX路XX号
+                            </div>
+                        </td>
+                        <td>
+                            <div>2025-11-05</div>
+                            <div style="font-size: 12px; color: #999;">10:00-12:00</div>
+                        </td>
+                        <td style="max-width: 150px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                            黄金项链约50克，需要上门鉴定
+                        </td>
+                        <td><span class="tag tag-warning">待处理</span></td>
+                        <td>沪金汇1店</td>
+                        <td>2025-11-04 15:20</td>
+                        <td>
+                            <button class="btn btn-text" style="color: #67c23a;" onclick="confirm('确认预约？')">✅ 确认</button>
+                            <button class="btn btn-text" onclick="alert('查看详情')">👁️ 详情</button>
+                            <button class="btn btn-text" style="color: #f56c6c;" onclick="confirm('取消预约？')">❌ 取消</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>
+                            <div style="font-weight: 500;">李女士</div>
+                            <div style="font-size: 12px; color: #999;">139****5678</div>
+                        </td>
+                        <td><span class="tag" style="background: #e6f7ff; color: #409eff;">白银</span></td>
+                        <td>
+                            <span style="display: flex; align-items: center; gap: 5px;">
+                                🏪 到店回收
+                            </span>
+                        </td>
+                        <td>
+                            <div>2025-11-05</div>
+                            <div style="font-size: 12px; color: #999;">14:00-16:00</div>
+                        </td>
+                        <td>银首饰一批</td>
+                        <td><span class="tag tag-success">已确认</span></td>
+                        <td>沪金汇1店</td>
+                        <td>2025-11-04 12:30</td>
+                        <td>
+                            <button class="btn btn-text" style="color: #409eff;" onclick="confirm('标记为已完成？')">✔️ 完成</button>
+                            <button class="btn btn-text" onclick="alert('查看详情')">👁️ 详情</button>
+                            <button class="btn btn-text" onclick="alert('拨打电话：139****5678')">📞 电话</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>
+                            <div style="font-weight: 500;">王先生</div>
+                            <div style="font-size: 12px; color: #999;">137****9012</div>
+                        </td>
+                        <td><span class="tag" style="background: #fff4e6; color: #FFA500;">黄金</span></td>
+                        <td>
+                            <span style="display: flex; align-items: center; gap: 5px;">
+                                🏪 到店回收
+                            </span>
+                        </td>
+                        <td>
+                            <div>2025-11-04</div>
+                            <div style="font-size: 12px; color: #999;">16:00-18:00</div>
+                        </td>
+                        <td>金戒指</td>
+                        <td><span class="tag tag-info">已完成</span></td>
+                        <td>沪金汇2店</td>
+                        <td>2025-11-03 09:15</td>
+                        <td>
+                            <button class="btn btn-text" onclick="alert('查看详情')">👁️ 详情</button>
+                            <button class="btn btn-text" onclick="alert('查看回收记录')">📝 记录</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td>
+                            <div style="font-weight: 500;">赵女士</div>
+                            <div style="font-size: 12px; color: #999;">136****3456</div>
+                        </td>
+                        <td><span class="tag" style="background: #f0f0f0; color: #909399;">铂金</span></td>
+                        <td>
+                            <span style="display: flex; align-items: center; gap: 5px;">
+                                🏠 上门回收
+                            </span>
+                            <div style="font-size: 11px; color: #999; margin-top: 3px;">
+                                上海市徐汇区XX路XX号
+                            </div>
+                        </td>
+                        <td>
+                            <div>2025-11-03</div>
+                            <div style="font-size: 12px; color: #999;">10:00-12:00</div>
+                        </td>
+                        <td>铂金项链</td>
+                        <td><span class="tag tag-danger">已取消</span></td>
+                        <td>沪金汇1店</td>
+                        <td>2025-11-02 14:20</td>
+                        <td>
+                            <button class="btn btn-text" onclick="alert('查看详情')">👁️ 详情</button>
+                            <span style="font-size: 12px; color: #999;">客户取消</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <td>
+                            <div style="font-weight: 500;">刘先生</div>
+                            <div style="font-size: 12px; color: #999;">135****7890</div>
+                        </td>
+                        <td><span class="tag" style="background: #fff4e6; color: #FFA500;">黄金</span></td>
+                        <td>
+                            <span style="display: flex; align-items: center; gap: 5px;">
+                                🏪 到店回收
+                            </span>
+                        </td>
+                        <td>
+                            <div>2025-11-06</div>
+                            <div style="font-size: 12px; color: #999;">09:00-11:00</div>
+                        </td>
+                        <td>金币收藏品</td>
+                        <td><span class="tag tag-warning">待处理</span></td>
+                        <td>沪金汇1店</td>
+                        <td>2025-11-04 16:45</td>
+                        <td>
+                            <button class="btn btn-text" style="color: #67c23a;" onclick="confirm('确认预约？')">✅ 确认</button>
+                            <button class="btn btn-text" onclick="alert('查看详情')">👁️ 详情</button>
+                            <button class="btn btn-text" onclick="alert('拨打电话：135****7890')">📞 电话</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="pagination">
+                <button class="page-btn">上一页</button>
+                <button class="page-btn active">1</button>
+                <button class="page-btn">2</button>
+                <button class="page-btn">3</button>
+                <button class="page-btn">下一页</button>
+                <span style="margin-left: 20px; color: #666; font-size: 14px;">共 48 条预约</span>
+            </div>
+        </div>
+
+        <div class="back-btn-container">
+            <a href="index.html" class="back-btn">← 返回导航</a>
+            <a href="layout.html" class="back-btn" style="background: #667eea;">返回框架</a>
+        </div>
+    </div>
+</body>
+</html>
+
+
+

@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>菜单管理 - 沪金汇管理后台</title>
+    <link rel="stylesheet" href="common.css">
+    <style>
+        .menu-tree {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            padding: 20px;
+        }
+        .tree-node {
+            padding: 10px;
+            border-left: 2px solid #e0e0e0;
+            margin-left: 20px;
+        }
+        .tree-node-root {
+            margin-left: 0;
+            border-left: none;
+        }
+        .node-content {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            border-radius: 4px;
+            transition: background 0.3s;
+            gap: 15px;
+        }
+        .node-content:hover {
+            background: #f5f5f5;
+        }
+        .node-icon {
+            font-size: 20px;
+            min-width: 30px;
+        }
+        .node-info {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .node-title {
+            font-weight: 500;
+            color: #333;
+        }
+        .node-path {
+            font-size: 12px;
+            color: #999;
+        }
+        .node-type {
+            font-size: 12px;
+            padding: 2px 8px;
+            border-radius: 10px;
+        }
+        .type-dir {
+            background: #e1f3d8;
+            color: #67c23a;
+        }
+        .type-menu {
+            background: #e6f7ff;
+            color: #409eff;
+        }
+        .type-button {
+            background: #fef0f0;
+            color: #f56c6c;
+        }
+        .node-actions {
+            display: flex;
+            gap: 5px;
+        }
+        .expand-icon {
+            cursor: pointer;
+            font-size: 14px;
+            color: #999;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="page-title">🌲 菜单管理</h1>
+
+        <div class="card" style="margin-bottom: 20px;">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div style="color: #666; font-size: 14px;">
+                    📌 提示：菜单采用树形结构，支持目录、菜单、按钮三种类型
+                </div>
+                <button class="btn btn-success" onclick="alert('新增顶级菜单')">➕ 新增顶级菜单</button>
+            </div>
+        </div>
+
+        <div class="menu-tree">
+            <!-- 首页 -->
+            <div class="tree-node tree-node-root">
+                <div class="node-content">
+                    <span class="expand-icon">📂</span>
+                    <span class="node-icon">📊</span>
+                    <div class="node-info">
+                        <span class="node-title">首页</span>
+                        <span class="node-type type-menu">菜单</span>
+                        <span class="node-path">/dashboard</span>
+                    </div>
+                    <div class="node-actions">
+                        <button class="btn btn-text" onclick="alert('编辑')">✏️</button>
+                        <button class="btn btn-text" onclick="alert('新增子菜单')">➕</button>
+                        <button class="btn btn-text" onclick="confirm('删除?')">🗑️</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 业务管理 -->
+            <div class="tree-node tree-node-root">
+                <div class="node-content">
+                    <span class="expand-icon">📂</span>
+                    <span class="node-icon">💼</span>
+                    <div class="node-info">
+                        <span class="node-title">业务管理</span>
+                        <span class="node-type type-dir">目录</span>
+                        <span class="node-path">/business</span>
+                    </div>
+                    <div class="node-actions">
+                        <button class="btn btn-text" onclick="alert('编辑')">✏️</button>
+                        <button class="btn btn-text" onclick="alert('新增子菜单')">➕</button>
+                    </div>
+                </div>
+
+                <!-- 沪金汇1店 -->
+                <div class="tree-node">
+                    <div class="node-content">
+                        <span class="expand-icon">📂</span>
+                        <span class="node-icon">🏪</span>
+                        <div class="node-info">
+                            <span class="node-title">沪金汇1店</span>
+                            <span class="node-type type-dir">目录</span>
+                            <span class="node-path">/business/shop1</span>
+                        </div>
+                        <div class="node-actions">
+                            <button class="btn btn-text" onclick="alert('编辑')">✏️</button>
+                            <button class="btn btn-text" onclick="alert('新增子菜单')">➕</button>
+                            <button class="btn btn-text" onclick="confirm('删除?')">🗑️</button>
+                        </div>
+                    </div>
+
+                    <!-- 价格管理 -->
+                    <div class="tree-node">
+                        <div class="node-content">
+                            <span class="expand-icon">📂</span>
+                            <span class="node-icon">💰</span>
+                            <div class="node-info">
+                                <span class="node-title">价格管理</span>
+                                <span class="node-type type-menu">菜单</span>
+                                <span class="node-path">/business/shop1/price</span>
+                            </div>
+                            <div class="node-actions">
+                                <button class="btn btn-text" onclick="alert('编辑')">✏️</button>
+                                <button class="btn btn-text" onclick="alert('新增按钮')">➕</button>
+                                <button class="btn btn-text" onclick="confirm('删除?')">🗑️</button>
+                            </div>
+                        </div>
+
+                        <!-- 按钮权限（预留） -->
+                        <div class="tree-node">
+                            <div class="node-content">
+                                <span class="expand-icon"></span>
+                                <span class="node-icon">🔘</span>
+                                <div class="node-info">
+                                    <span class="node-title">编辑价格</span>
+                                    <span class="node-type type-button">按钮</span>
+                                    <span class="node-path" style="font-size: 11px;">shop1:price:edit</span>
+                                </div>
+                                <div class="node-actions">
+                                    <button class="btn btn-text" onclick="alert('编辑')">✏️</button>
+                                    <button class="btn btn-text" onclick="confirm('删除?')">🗑️</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 预约管理 -->
+                    <div class="tree-node">
+                        <div class="node-content">
+                            <span class="expand-icon">📄</span>
+                            <span class="node-icon">📅</span>
+                            <div class="node-info">
+                                <span class="node-title">预约管理</span>
+                                <span class="node-type type-menu">菜单</span>
+                                <span class="node-path">/business/shop1/appointment</span>
+                            </div>
+                            <div class="node-actions">
+                                <button class="btn btn-text" onclick="alert('编辑')">✏️</button>
+                                <button class="btn btn-text" onclick="alert('新增按钮')">➕</button>
+                                <button class="btn btn-text" onclick="confirm('删除?')">🗑️</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 沪金汇2店 -->
+                <div class="tree-node">
+                    <div class="node-content">
+                        <span class="expand-icon">📁</span>
+                        <span class="node-icon">🏪</span>
+                        <div class="node-info">
+                            <span class="node-title">沪金汇2店</span>
+                            <span class="node-type type-dir">目录</span>
+                            <span class="node-path">/business/shop2</span>
+                        </div>
+                        <div class="node-actions">
+                            <button class="btn btn-text" onclick="alert('编辑')">✏️</button>
+                            <button class="btn btn-text" onclick="alert('新增子菜单')">➕</button>
+                            <button class="btn btn-text" onclick="confirm('删除?')">🗑️</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 系统管理 -->
+            <div class="tree-node tree-node-root">
+                <div class="node-content">
+                    <span class="expand-icon">📂</span>
+                    <span class="node-icon">⚙️</span>
+                    <div class="node-info">
+                        <span class="node-title">系统管理</span>
+                        <span class="node-type type-dir">目录</span>
+                        <span class="node-path">/system</span>
+                    </div>
+                    <div class="node-actions">
+                        <button class="btn btn-text" onclick="alert('编辑')">✏️</button>
+                        <button class="btn btn-text" onclick="alert('新增子菜单')">➕</button>
+                    </div>
+                </div>
+
+                <!-- 用户管理 -->
+                <div class="tree-node">
+                    <div class="node-content">
+                        <span class="expand-icon">📄</span>
+                        <span class="node-icon">👥</span>
+                        <div class="node-info">
+                            <span class="node-title">用户管理</span>
+                            <span class="node-type type-menu">菜单</span>
+                            <span class="node-path">/system/user</span>
+                        </div>
+                        <div class="node-actions">
+                            <button class="btn btn-text" onclick="alert('编辑')">✏️</button>
+                            <button class="btn btn-text" onclick="alert('新增按钮')">➕</button>
+                            <button class="btn btn-text" onclick="confirm('删除?')">🗑️</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 角色管理 -->
+                <div class="tree-node">
+                    <div class="node-content">
+                        <span class="expand-icon">📄</span>
+                        <span class="node-icon">🎭</span>
+                        <div class="node-info">
+                            <span class="node-title">角色管理</span>
+                            <span class="node-type type-menu">菜单</span>
+                            <span class="node-path">/system/role</span>
+                        </div>
+                        <div class="node-actions">
+                            <button class="btn btn-text" onclick="alert('编辑')">✏️</button>
+                            <button class="btn btn-text" onclick="alert('新增按钮')">➕</button>
+                            <button class="btn btn-text" onclick="confirm('删除?')">🗑️</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 菜单管理 -->
+                <div class="tree-node">
+                    <div class="node-content">
+                        <span class="expand-icon">📄</span>
+                        <span class="node-icon">🌲</span>
+                        <div class="node-info">
+                            <span class="node-title">菜单管理</span>
+                            <span class="node-type type-menu">菜单</span>
+                            <span class="node-path">/system/menu</span>
+                        </div>
+                        <div class="node-actions">
+                            <button class="btn btn-text" onclick="alert('编辑')">✏️</button>
+                            <button class="btn btn-text" onclick="confirm('删除?')">🗑️</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="back-btn-container">
+            <a href="index.html" class="back-btn">← 返回导航</a>
+            <a href="layout.html" class="back-btn" style="background: #667eea;">返回框架</a>
+        </div>
+    </div>
+</body>
+</html>
+
+
+

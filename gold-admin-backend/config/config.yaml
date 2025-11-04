@@ -1,0 +1,19 @@
+server:
+  port: 8080
+  mode: debug # debug / release
+
+database:
+  type: sqlite
+  path: ./data/gold_admin.db
+  max_idle_conns: 10
+  max_open_conns: 100
+
+jwt:
+  secret: gold-admin-secret-key-change-me-in-production
+  expire: 168 # 小时（7天）
+
+log:
+  level: info
+  path: ./logs
+
+

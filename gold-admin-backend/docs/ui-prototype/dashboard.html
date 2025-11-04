@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>首页看板 - 沪金汇管理后台</title>
+    <link rel="stylesheet" href="common.css">
+    <style>
+        /* 统计卡片 */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        .stat-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 25px;
+            border-radius: 10px;
+            color: white;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+        .stat-card:nth-child(1) {
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+        }
+        .stat-card:nth-child(2) {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .stat-card:nth-child(3) {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+        .stat-card:nth-child(4) {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        }
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+        .stat-icon {
+            font-size: 40px;
+            margin-bottom: 10px;
+        }
+        .stat-title {
+            font-size: 14px;
+            opacity: 0.9;
+            margin-bottom: 10px;
+        }
+        .stat-value {
+            font-size: 32px;
+            font-weight: bold;
+        }
+        .stat-desc {
+            font-size: 12px;
+            opacity: 0.8;
+            margin-top: 10px;
+        }
+
+        /* 快捷入口 */
+        .quick-actions {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            margin-bottom: 20px;
+        }
+        .section-title {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #333;
+        }
+        .action-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 15px;
+        }
+        .action-btn {
+            padding: 20px;
+            text-align: center;
+            border: 2px dashed #ddd;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            color: #666;
+        }
+        .action-btn:hover {
+            border-color: #FFD700;
+            background: #fffef8;
+            color: #FFD700;
+        }
+        .action-icon {
+            font-size: 32px;
+            margin-bottom: 8px;
+        }
+        .action-text {
+            font-size: 14px;
+        }
+
+        /* 最新动态 */
+        .activity-list {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        .activity-item {
+            padding: 15px 0;
+            border-bottom: 1px solid #f0f0f0;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .activity-item:last-child {
+            border-bottom: none;
+        }
+        .activity-icon {
+            font-size: 24px;
+            width: 40px;
+            height: 40px;
+            background: #f5f5f5;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .activity-content {
+            flex: 1;
+        }
+        .activity-title {
+            font-size: 14px;
+            color: #333;
+            margin-bottom: 5px;
+        }
+        .activity-time {
+            font-size: 12px;
+            color: #999;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="page-title">📊 首页看板</h1>
+
+        <!-- 统计卡片 -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon">📅</div>
+                <div class="stat-title">今日预约</div>
+                <div class="stat-value">12</div>
+                <div class="stat-desc">待处理: 5 个</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">📝</div>
+                <div class="stat-title">今日回收</div>
+                <div class="stat-value">8</div>
+                <div class="stat-desc">总金额: ¥45,680</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">👥</div>
+                <div class="stat-title">小程序用户</div>
+                <div class="stat-value">1,234</div>
+                <div class="stat-desc">本周新增: 28</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">🧮</div>
+                <div class="stat-title">计算次数</div>
+                <div class="stat-value">156</div>
+                <div class="stat-desc">今日使用</div>
+            </div>
+        </div>
+
+        <!-- 快捷入口 -->
+        <div class="quick-actions">
+            <div class="section-title">⚡ 快捷入口</div>
+            <div class="action-grid">
+                <a href="price-list.html" class="action-btn">
+                    <div class="action-icon">💰</div>
+                    <div class="action-text">更新价格</div>
+                </a>
+                <a href="appointment-list.html" class="action-btn">
+                    <div class="action-icon">📅</div>
+                    <div class="action-text">查看预约</div>
+                </a>
+                <a href="record-list.html" class="action-btn">
+                    <div class="action-icon">📝</div>
+                    <div class="action-text">新增记录</div>
+                </a>
+                <a href="user-list.html" class="action-btn">
+                    <div class="action-icon">👥</div>
+                    <div class="action-text">用户管理</div>
+                </a>
+                <a href="shop-list.html" class="action-btn">
+                    <div class="action-icon">🏪</div>
+                    <div class="action-text">店铺管理</div>
+                </a>
+                <a href="#" class="action-btn">
+                    <div class="action-icon">📊</div>
+                    <div class="action-text">数据统计</div>
+                </a>
+            </div>
+        </div>
+
+        <!-- 最新动态 -->
+        <div class="activity-list">
+            <div class="section-title">📢 最新动态</div>
+            
+            <div class="activity-item">
+                <div class="activity-icon">📅</div>
+                <div class="activity-content">
+                    <div class="activity-title">新预约：张先生预约明天上门回收黄金</div>
+                    <div class="activity-time">5分钟前</div>
+                </div>
+            </div>
+
+            <div class="activity-item">
+                <div class="activity-icon">💰</div>
+                <div class="activity-content">
+                    <div class="activity-title">价格更新：黄金9999价格更新为 ¥558.50/克</div>
+                    <div class="activity-time">1小时前</div>
+                </div>
+            </div>
+
+            <div class="activity-item">
+                <div class="activity-icon">📝</div>
+                <div class="activity-content">
+                    <div class="activity-title">回收完成：王女士黄金项链 50克，¥27,925</div>
+                    <div class="activity-time">2小时前</div>
+                </div>
+            </div>
+
+            <div class="activity-item">
+                <div class="activity-icon">👥</div>
+                <div class="activity-content">
+                    <div class="activity-title">新用户注册：小程序新增用户 3 人</div>
+                    <div class="activity-time">3小时前</div>
+                </div>
+            </div>
+
+            <div class="activity-item">
+                <div class="activity-icon">🧮</div>
+                <div class="activity-content">
+                    <div class="activity-title">计算器使用：李先生计算了黄金价值</div>
+                    <div class="activity-time">5小时前</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="back-btn-container">
+            <a href="index.html" class="back-btn">← 返回导航</a>
+            <a href="layout.html" class="back-btn" style="background: #667eea;">返回框架</a>
+        </div>
+    </div>
+</body>
+</html>
+
+
+
