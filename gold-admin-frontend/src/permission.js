@@ -8,7 +8,7 @@ import Layout from '@/layout'
 
 NProgress.configure({ showSpinner: false })
 
-const whiteList = ['/login']
+const whiteList = ['/login', '/display']
 
 // 组件映射表 - 添加新功能时在这里添加组件映射
 const componentMap = {
