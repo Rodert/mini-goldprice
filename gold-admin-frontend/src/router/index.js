@@ -59,27 +59,18 @@ export const constantRoutes = [
     ]
   },
   {
-    path: '/price',
-    component: Layout,
-    redirect: '/price/list',
-    name: 'Price',
-    meta: { title: '价格管理', icon: 'el-icon-s-finance' },
-    children: [
-      {
-        path: 'list',
-        name: 'PriceList',
-        component: () => import('@/views/price/index'),
-        meta: { title: '价格列表', icon: 'el-icon-price-tag' }
-      }
-    ]
-  },
-  {
     path: '/business',
     component: Layout,
-    redirect: '/business/appointment',
+    redirect: '/business/price',
     name: 'Business',
     meta: { title: '业务管理', icon: 'el-icon-s-management' },
     children: [
+      {
+        path: 'price',
+        name: 'Price',
+        component: () => import('@/views/price/index'),
+        meta: { title: '价格管理', icon: 'el-icon-coin' }
+      },
       {
         path: 'appointment',
         name: 'Appointment',
@@ -102,6 +93,25 @@ const router = createRouter()
 export function resetRouter() {
   const newRouter = createRouter()
   router.matcher = newRouter.matcher
+}
+
+// 解决动态路由添加时的导航重定向警告
+const originalPush = VueRouter.prototype.push
+VueRouter.prototype.push = function push(location) {
+  return originalPush.call(this, location).catch(err => {
+    if (err.name !== 'NavigationDuplicated' && !err.message.includes('Redirected')) {
+      return Promise.reject(err)
+    }
+  })
+}
+
+const originalReplace = VueRouter.prototype.replace
+VueRouter.prototype.replace = function replace(location) {
+  return originalReplace.call(this, location).catch(err => {
+    if (err.name !== 'NavigationDuplicated' && !err.message.includes('Redirected')) {
+      return Promise.reject(err)
+    }
+  })
 }
 
 export default router

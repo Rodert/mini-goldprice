@@ -52,20 +52,6 @@ export default {
     // 将后端菜单树转换为前端路由格式
     convertMenusToRoutes(menus) {
       const routes = []
-      
-      // 首页路由（始终显示）
-      routes.push({
-        path: '/',
-        component: Layout,
-        redirect: '/dashboard',
-        children: [
-          {
-            path: 'dashboard',
-            name: 'Dashboard',
-            meta: { title: '首页', icon: 'el-icon-s-home' }
-          }
-        ]
-      })
 
       // 转换后端菜单为路由
       menus.forEach(menu => {
@@ -90,6 +76,16 @@ export default {
               icon: child.icon
             }
           }))
+        } else {
+          // 独立菜单（没有子菜单），需要包装成children格式
+          route.children = [{
+            path: '',
+            name: menu.name,
+            meta: {
+              title: menu.title,
+              icon: menu.icon
+            }
+          }]
         }
 
         routes.push(route)
