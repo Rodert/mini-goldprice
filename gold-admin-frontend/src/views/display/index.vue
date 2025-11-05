@@ -41,11 +41,16 @@
 
       <!-- 右侧：金价表格 -->
       <div class="price-table">
-        <table>
+        <!-- 调试信息 -->
+        <div v-if="priceList.length === 0" style="color: red; padding: 20px; text-align: center;">
+          数据加载中... 当前数据条数: {{ priceList.length }}
+        </div>
+        
+        <table v-if="priceList.length > 0">
           <thead>
             <tr>
               <th>品名</th>
-              <th>价格</th>
+              <th>销售价</th>
               <th>工费</th>
             </tr>
           </thead>
@@ -123,6 +128,9 @@ export default {
     }
   },
   mounted() {
+    console.log('🚀 页面加载完成，开始初始化...')
+    console.log('📊 初始 priceList:', this.priceList)
+    
     this.fetchPriceData()
     this.startAnimations()
     this.updateTime()
@@ -132,6 +140,11 @@ export default {
     this.refreshTimer = setInterval(() => {
       this.fetchPriceData()
     }, 5 * 60 * 1000)
+    
+    // 5秒后再次检查数据
+    setTimeout(() => {
+      console.log('⏰ 5秒后检查 priceList:', this.priceList)
+    }, 5000)
   },
   beforeDestroy() {
     this.stopAnimations()
@@ -143,32 +156,63 @@ export default {
     // 获取金价数据
     async fetchPriceData() {
       try {
+        console.log('🔍 开始获取金价数据...')
         const response = await getPriceList({
           page: 1,
           page_size: 100
         })
         
-        if (response.code === 200 && response.data && response.data.list) {
-          this.priceList = response.data.list.slice(0, 5).map(item => ({
-            id: item.id,
-            name: item.name,
-            price: item.price,
-            fee: item.fee || 10,
-            image: item.image || ''
-          }))
+        console.log('📊 完整API响应:', response)
+        console.log('📊 response.code:', response.code)
+        console.log('📊 response.data:', response.data)
+        
+        // 检查多种可能的数据结构
+        if (response && response.code === 200) {
+          let dataList = null
+          
+          // 尝试不同的数据结构
+          if (response.data && response.data.list) {
+            dataList = response.data.list
+            console.log('✅ 使用 response.data.list')
+          } else if (response.data && Array.isArray(response.data)) {
+            dataList = response.data
+            console.log('✅ 使用 response.data (数组)')
+          } else if (Array.isArray(response)) {
+            dataList = response
+            console.log('✅ 使用 response (数组)')
+          }
+          
+          if (dataList && dataList.length > 0) {
+            console.log('📊 原始数据列表:', dataList)
+            this.priceList = dataList.slice(0, 5).map(item => ({
+              id: item.id,
+              name: item.name,
+              price: item.sell_price || item.price || 0,  // 使用销售价
+              fee: item.fee || 10
+            }))
+            console.log('✅ 金价数据加载成功，条数:', this.priceList.length)
+            console.log('✅ 处理后的数据:', JSON.stringify(this.priceList, null, 2))
+            
+            // 强制更新视图
+            this.$forceUpdate()
+          } else {
+            console.warn('⚠️ 数据列表为空，使用模拟数据')
+            this.useMockData()
+          }
         } else {
-          // 使用模拟数据
+          console.warn('⚠️ API返回格式不正确，使用模拟数据')
+          console.log('⚠️ response.code =', response?.code)
           this.useMockData()
         }
       } catch (error) {
-        console.error('获取价格数据失败:', error)
-        // 使用模拟数据
+        console.error('❌ 获取价格数据失败:', error)
         this.useMockData()
       }
     },
     
     // 使用模拟数据
     useMockData() {
+      console.log('📝 使用模拟数据')
       this.priceList = [
         { id: 1, name: '足金(9999)', price: 488, fee: 10, image: '' },
         { id: 2, name: '足金(999)', price: 428, fee: 10, image: '' },
@@ -176,6 +220,7 @@ export default {
         { id: 4, name: 'Pt990', price: 408, fee: 10, image: '' },
         { id: 5, name: 'PD950', price: 218, fee: 10, image: '' }
       ]
+      console.log('✅ 模拟数据已设置:', this.priceList)
     },
     
     // 初始化跑马灯
@@ -397,39 +442,20 @@ export default {
   background: rgba(0, 0, 0, 0.5);
   border-radius: 10px;
   padding: 20px;
-  overflow: hidden;
+  overflow: auto;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-  display: flex;
-  flex-direction: column;
   
   table {
     width: 100%;
-    height: 100%;
     border-collapse: collapse;
-    display: flex;
-    flex-direction: column;
-    
-    thead {
-      flex-shrink: 0;
-    }
-    
-    tbody {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-    }
-    
-    tr {
-      display: flex;
-      width: 100%;
-    }
     
     thead tr {
       border-bottom: 2px solid rgba(240, 198, 116, 0.5);
     }
     
     tbody tr {
-      flex: 1;
+      min-height: 80px;
+      max-height: 100px;
       transition: background-color 0.3s;
       border-bottom: 1px solid rgba(240, 198, 116, 0.2);
       
@@ -443,12 +469,9 @@ export default {
     }
     
     th, td {
-      flex: 1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
       text-align: center;
-      padding: 10px;
+      padding: 15px 10px;
+      vertical-align: middle;
     }
     
     th {
