@@ -13,9 +13,14 @@ deps:
 build:
 	go build -ldflags="-w -s" -o gold-admin main.go
 
+# 编译 Linux x86_64
+build-linux:
+	CC=x86_64-linux-musl-gcc CGO_ENABLED=1 GOOS=linux GOARCH=amd64 go build -ldflags="-w -s" -o gold-admin-linux-amd64 main.go
+
 # 清理
 clean:
 	rm -f gold-admin
+	rm -f gold-admin-linux-amd64
 	rm -rf data/
 	rm -rf logs/
 
@@ -37,6 +42,7 @@ help:
 	@echo "  make clean        - 清理生成文件"
 	@echo "  make test         - 运行测试"
 	@echo "  make init-admin   - 创建默认管理员"
+
 
 
 

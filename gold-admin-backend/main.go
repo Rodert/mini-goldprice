@@ -1,6 +1,8 @@
 package main
 
 import (
+	"embed"
+	"flag"
 	"fmt"
 	"gold-admin-backend/config"
 	"gold-admin-backend/models"
@@ -9,12 +11,30 @@ import (
 	"os"
 )
 
-func main() {
-	// 加载配置
-	if err := config.LoadConfig("./config/config.yaml"); err != nil {
-		log.Fatalf("加载配置失败: %v", err)
-	}
+//go:embed config/config.yaml
+var embeddedConfig embed.FS
 
+func main() {
+	// 解析命令行参数
+	var configPath string
+	flag.StringVar(&configPath, "c", "", "配置文件路径（可选，默认使用嵌入的配置）")
+	flag.Parse()
+
+	// 加载配置
+	var err error
+	if configPath != "" {
+		// 使用外部配置文件
+		log.Printf("使用外部配置文件: %s", configPath)
+		if err = config.LoadConfigFromFile(configPath); err != nil {
+			log.Fatalf("加载配置文件失败: %v", err)
+		}
+	} else {
+		// 使用嵌入的默认配置
+		log.Println("使用嵌入的默认配置文件")
+		if err = config.LoadConfigFromEmbed(embeddedConfig, "config/config.yaml"); err != nil {
+			log.Fatalf("加载嵌入配置失败: %v", err)
+		}
+	}
 	// 创建数据目录
 	if err := os.MkdirAll("./data", 0755); err != nil {
 		log.Fatalf("创建数据目录失败: %v", err)

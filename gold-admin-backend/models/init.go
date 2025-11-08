@@ -148,7 +148,7 @@ func InitData() error {
 	menus := []Menu{
 		// 首页
 		{ID: 1, ParentID: 0, Type: 2, Name: "dashboard", Title: "首页", Icon: "el-icon-s-home", Path: "/dashboard", Component: "dashboard/index", Sort: 1, Visible: 1, Status: 1},
-		
+
 		// 业务管理
 		{ID: 10, ParentID: 0, Type: 1, Name: "business", Title: "业务管理", Icon: "el-icon-s-management", Path: "/business", Component: "Layout", Sort: 10, Visible: 1, Status: 1},
 		{ID: 11, ParentID: 10, Type: 2, Name: "price", Title: "价格管理", Icon: "el-icon-money", Path: "price", Component: "price/index", Sort: 1, Visible: 1, Status: 1},

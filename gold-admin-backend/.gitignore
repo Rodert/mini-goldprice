@@ -5,6 +5,7 @@
 *.so
 *.dylib
 gold-admin-backend
+gold-admin-backend-linux-amd64
 gold-admin
 
 # Test binary
@@ -47,6 +48,7 @@ Thumbs.db
 dist/
 web/node_modules/
 web/dist/
+
 
 
 

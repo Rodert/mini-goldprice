@@ -1,6 +1,8 @@
 package config
 
 import (
+	"bytes"
+	"embed"
 	"fmt"
 
 	"github.com/spf13/viper"
@@ -43,8 +45,9 @@ type LogConfig struct {
 
 var AppConfig *Config
 
-// LoadConfig 加载配置文件
-func LoadConfig(configPath string) error {
+// LoadConfigFromFile 从文件加载配置（兼容旧方法）
+func LoadConfigFromFile(configPath string) error {
+	viper.Reset()
 	viper.SetConfigFile(configPath)
 	viper.SetConfigType("yaml")
 
@@ -60,9 +63,31 @@ func LoadConfig(configPath string) error {
 	return nil
 }
 
+// LoadConfigFromEmbed 从 embed.FS 加载配置
+func LoadConfigFromEmbed(embedFS embed.FS, configPath string) error {
+	viper.Reset()
+	viper.SetConfigType("yaml")
 
+	// 从 embed.FS 读取文件内容
+	data, err := embedFS.ReadFile(configPath)
+	if err != nil {
+		return fmt.Errorf("读取嵌入配置文件失败: %w", err)
+	}
 
+	// 将内容读取到 viper
+	if err := viper.ReadConfig(bytes.NewReader(data)); err != nil {
+		return fmt.Errorf("解析嵌入配置失败: %w", err)
+	}
 
+	AppConfig = &Config{}
+	if err := viper.Unmarshal(AppConfig); err != nil {
+		return fmt.Errorf("解析配置结构失败: %w", err)
+	}
 
+	return nil
+}
 
-
+// LoadConfig 兼容旧方法（保持向后兼容）
+func LoadConfig(configPath string) error {
+	return LoadConfigFromFile(configPath)
+}
