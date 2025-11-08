@@ -14,6 +14,7 @@
 </template>
 
 <script>
+import { getDashboardStats } from '@/api/dashboard'
 
 export default {
   name: 'Dashboard',
@@ -22,7 +23,18 @@ export default {
       stats: {}
     }
   },
+  created() {
+    this.getStats()
+  },
   methods: {
+    getStats() {
+      getDashboardStats().then(response => {
+        this.stats = response.data || {}
+      }).catch(error => {
+        // 错误已经在 request.js 中处理了，这里只做静默失败
+        console.error('获取统计数据失败:', error)
+      })
+    }
   }
 }
 </script>
