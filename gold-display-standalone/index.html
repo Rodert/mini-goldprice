@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>今日金价 - SineGem 中国珠宝</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- 顶部横幅 -->
+    <div class="header">
+        <div class="logo">
+            <span class="logo-icon">💎</span>
+            <span class="brand-name">SineGem 中国珠宝</span>
+        </div>
+        <div class="title">今日金价</div>
+    </div>
+
+    <!-- 主体内容 -->
+    <div class="main-content">
+        <!-- 左侧：视频 -->
+        <div class="video-section">
+            <video id="videoPlayer" autoplay loop muted playsinline>
+                <source src="assets/jewelry-video.mp4" type="video/mp4">
+                您的浏览器不支持视频播放
+            </video>
+            <div id="videoPlaceholder" class="video-placeholder" style="display: none;">
+                <p>视频展示区域</p>
+                <p class="hint">请在 assets 目录下添加 jewelry-video.mp4</p>
+            </div>
+        </div>
+
+        <!-- 中间：产品图片滚动 -->
+        <div class="scroll-images">
+            <div id="scrollContainer" class="scroll-container">
+                <!-- 图片将通过 JavaScript 动态添加 -->
+            </div>
+        </div>
+
+        <!-- 右侧：金价表格 -->
+        <div class="price-table">
+            <div id="loadingMsg" class="loading-msg">数据加载中...</div>
+            <table id="priceTable" style="display: none;">
+                <thead>
+                    <tr>
+                        <th>品名</th>
+                        <th>销售价</th>
+                        <th>工费</th>
+                    </tr>
+                </thead>
+                <tbody id="priceTableBody">
+                    <!-- 数据将通过 JavaScript 动态添加 -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- 底部信息栏 -->
+    <div class="footer">
+        <div id="datetime" class="datetime"></div>
+        <div class="marquee">
+            <div class="marquee-content">
+                <div id="marqueeText" class="marquee-text">中国珠宝欢迎您！！！</div>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
+
