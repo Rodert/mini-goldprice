@@ -6,9 +6,9 @@
     <el-scrollbar wrap-class="scrollbar-wrapper">
       <el-menu
         :default-active="activeMenu"
-        :background-color="variables.menuBg"
-        :text-color="variables.menuText"
-        :active-text-color="variables.menuActiveText"
+        background-color="#304156"
+        text-color="#bfcbd9"
+        active-text-color="#409eff"
         :unique-opened="false"
         :collapse-transition="false"
         mode="vertical"

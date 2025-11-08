@@ -23,6 +23,8 @@ const mutations = {
     state.roles = roles
   },
   SET_MENUS: (state, menus) => {
+    console.log("menus", menus)
+    console.log("state", state)
     state.menus = menus
   }
 }
@@ -48,7 +50,7 @@ const actions = {
     return new Promise((resolve, reject) => {
       getUserInfo(state.token).then(response => {
         const { data } = response
-
+        console.log(data)
         if (!data) {
           reject(new Error('验证失败，请重新登录'))
         }
