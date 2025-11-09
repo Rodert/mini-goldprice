@@ -1,19 +1,34 @@
-/* 基础样式 - 兼容旧浏览器 */
+/* 全局样式 - 兼容旧版浏览器 */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    font-family: 'Microsoft YaHei', 'SimHei', Arial, sans-serif;
 }
 
 body {
-    width: 100vw;
-    height: 100vh;
     background: #1a1a2e;
     background: -webkit-linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    background: -moz-linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
     background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
     color: #f0c674;
-    font-family: 'Microsoft YaHei', 'PingFang SC', Arial, sans-serif;
-    overflow: hidden;
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: column;
+    -moz-flex-direction: column;
+    -ms-flex-direction: column;
+    flex-direction: column;
 }
 
 /* 顶部横幅 */
@@ -24,13 +39,18 @@ body {
     display: -webkit-flex;
     display: flex;
     -webkit-justify-content: space-between;
+    -moz-justify-content: space-between;
+    -ms-flex-pack: justify;
     justify-content: space-between;
     -webkit-align-items: center;
+    -moz-align-items: center;
+    -ms-flex-align: center;
     align-items: center;
     padding: 20px 40px;
     background: rgba(0, 0, 0, 0.5);
     border-bottom: 2px solid #f0c674;
     box-shadow: 0 2px 10px rgba(240, 198, 116, 0.3);
+    min-height: 80px;
 }
 
 .logo {
@@ -40,6 +60,8 @@ body {
     display: -webkit-flex;
     display: flex;
     -webkit-align-items: center;
+    -moz-align-items: center;
+    -ms-flex-align: center;
     align-items: center;
 }
 
@@ -65,22 +87,28 @@ body {
 
 /* 主体内容 */
 .main-content {
+    -webkit-box-flex: 1;
+    -moz-box-flex: 1;
+    -webkit-flex: 1;
+    -moz-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
     display: -webkit-box;
     display: -moz-box;
     display: -ms-flexbox;
     display: -webkit-flex;
     display: flex;
-    height: calc(100vh - 140px);
-    gap: 20px;
     padding: 20px;
     overflow: hidden;
+    min-height: 0;
 }
 
-/* 视频区域 */
+/* 视频区域（60%宽度） */
 .video-section {
     -webkit-box-flex: 6;
     -moz-box-flex: 6;
     -webkit-flex: 6;
+    -moz-flex: 6;
     -ms-flex: 6;
     flex: 6;
     background: #000;
@@ -88,6 +116,7 @@ body {
     overflow: hidden;
     position: relative;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    margin-right: 20px;
 }
 
 .video-section video {
@@ -106,13 +135,23 @@ body {
     display: -webkit-flex;
     display: flex;
     -webkit-flex-direction: column;
+    -moz-flex-direction: column;
+    -ms-flex-direction: column;
     flex-direction: column;
     -webkit-justify-content: center;
+    -moz-justify-content: center;
+    -ms-flex-pack: center;
     justify-content: center;
     -webkit-align-items: center;
+    -moz-align-items: center;
+    -ms-flex-align: center;
     align-items: center;
     color: #666;
-    text-align: center;
+}
+
+.placeholder-icon {
+    font-size: 80px;
+    margin-bottom: 20px;
 }
 
 .video-placeholder p {
@@ -125,11 +164,12 @@ body {
     color: #888;
 }
 
-/* 产品图片滚动区域 */
+/* 产品图片滚动区域（10%宽度） */
 .scroll-images {
     -webkit-box-flex: 1;
     -moz-box-flex: 1;
     -webkit-flex: 1;
+    -moz-flex: 1;
     -ms-flex: 1;
     flex: 1;
     background: rgba(0, 0, 0, 0.3);
@@ -137,12 +177,15 @@ body {
     overflow: hidden;
     position: relative;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    margin-right: 20px;
 }
 
 .scroll-container {
     position: relative;
-    -webkit-transition: transform 0.1s linear;
-    transition: transform 0.1s linear;
+    -webkit-transition: none;
+    -moz-transition: none;
+    -o-transition: none;
+    transition: none;
 }
 
 .product-image {
@@ -159,11 +202,12 @@ body {
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
 }
 
-/* 价格表格区域 */
+/* 价格表格区域（30%宽度） */
 .price-table {
     -webkit-box-flex: 3;
     -moz-box-flex: 3;
     -webkit-flex: 3;
+    -moz-flex: 3;
     -ms-flex: 3;
     flex: 3;
     background: rgba(0, 0, 0, 0.5);
@@ -173,11 +217,11 @@ body {
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
 }
 
-.loading-msg {
+.loading-message {
+    color: #ff6b6b;
+    padding: 20px;
     text-align: center;
-    padding: 40px;
-    font-size: 24px;
-    color: #f0c674;
+    font-size: 20px;
 }
 
 .price-table table {
@@ -191,10 +235,11 @@ body {
 
 .price-table tbody tr {
     min-height: 80px;
-    max-height: 100px;
-    -webkit-transition: background-color 0.3s;
-    transition: background-color 0.3s;
     border-bottom: 1px solid rgba(240, 198, 116, 0.2);
+    -webkit-transition: background-color 0.3s;
+    -moz-transition: background-color 0.3s;
+    -o-transition: background-color 0.3s;
+    transition: background-color 0.3s;
 }
 
 .price-table tbody tr:hover {
@@ -250,20 +295,25 @@ body {
     display: -webkit-flex;
     display: flex;
     -webkit-justify-content: space-between;
+    -moz-justify-content: space-between;
+    -ms-flex-pack: justify;
     justify-content: space-between;
     -webkit-align-items: center;
+    -moz-align-items: center;
+    -ms-flex-align: center;
     align-items: center;
     padding: 15px 40px;
     background: rgba(0, 0, 0, 0.5);
     border-top: 2px solid #f0c674;
     box-shadow: 0 -2px 10px rgba(240, 198, 116, 0.3);
-    height: 60px;
+    min-height: 60px;
 }
 
 .datetime {
     -webkit-box-flex: 1;
     -moz-box-flex: 1;
     -webkit-flex: 1;
+    -moz-flex: 1;
     -ms-flex: 1;
     flex: 1;
     font-size: 20px;
@@ -274,6 +324,7 @@ body {
     -webkit-box-flex: 1;
     -moz-box-flex: 1;
     -webkit-flex: 1;
+    -moz-flex: 1;
     -ms-flex: 1;
     flex: 1;
     overflow: hidden;
@@ -295,27 +346,42 @@ body {
     left: 0;
     top: 0;
     text-shadow: 0 0 10px rgba(240, 198, 116, 0.5);
-    -webkit-transition: transform 0.1s linear;
-    transition: transform 0.1s linear;
 }
 
-/* 滚动条样式 */
-::-webkit-scrollbar {
+/* 滚动条样式 - 兼容旧版浏览器 */
+.price-table::-webkit-scrollbar {
     width: 8px;
     height: 8px;
 }
 
-::-webkit-scrollbar-track {
+.price-table::-webkit-scrollbar-track {
     background: rgba(0, 0, 0, 0.2);
     border-radius: 4px;
 }
 
-::-webkit-scrollbar-thumb {
+.price-table::-webkit-scrollbar-thumb {
     background: rgba(240, 198, 116, 0.5);
     border-radius: 4px;
 }
 
-::-webkit-scrollbar-thumb:hover {
+.price-table::-webkit-scrollbar-thumb:hover {
     background: rgba(240, 198, 116, 0.7);
+}
+
+/* 兼容旧版浏览器的transform前缀 */
+.scroll-container {
+    -webkit-transform: translateY(0);
+    -moz-transform: translateY(0);
+    -ms-transform: translateY(0);
+    -o-transform: translateY(0);
+    transform: translateY(0);
+}
+
+.marquee-text {
+    -webkit-transform: translateX(0);
+    -moz-transform: translateX(0);
+    -ms-transform: translateX(0);
+    -o-transform: translateX(0);
+    transform: translateX(0);
 }
 
