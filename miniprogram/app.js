@@ -50,167 +50,63 @@ App({
 
   // 初始化数据
   initData() {
-    // 如果没有缓存的价格数据，设置默认值
-    const priceData = wx.getStorageSync('priceData');
-    if (!priceData) {
-      this.updatePriceData();
-    }
+    // 尝试从后端获取最新数据
+    this.updatePriceData()
+      .then((priceData) => {
+        console.log('价格数据更新成功');
+      })
+      .catch((err) => {
+        console.error('价格数据初始化失败:', err);
+        // 如果失败且没有缓存，使用默认数据作为兜底
+        const cachedData = wx.getStorageSync('priceData');
+        if (!cachedData) {
+          console.warn('使用默认数据');
+        }
+      });
   },
 
-  // 更新价格数据（模拟数据，实际应该从后端获取）
+  // 更新价格数据（从后端API获取）
   updatePriceData() {
-    const priceData = {
-      updateTime: this.formatTime(new Date()),
-      list: [
-        {
-          id: 1,
-          code: 'gold_9999',
-          name: '黄金9999',
-          subtitle: 'Au9999 · 千足金',
-          icon: 'Au',
-          iconColor: '#FFD700',
-          buyPrice: 558.50,
-          sellPrice: 568.80,
-          highPrice: 570.20,
-          lowPrice: 556.30
-        },
-        {
-          id: 2,
-          code: 'gold_td',
-          name: '黄金T+D',
-          subtitle: '上海金交所',
-          icon: 'Au',
-          iconColor: '#FFD700',
-          buyPrice: 559.20,
-          sellPrice: 569.50,
-          highPrice: 571.00,
-          lowPrice: 557.00
-        },
-        {
-          id: 3,
-          code: 'gold',
-          name: '黄金',
-          subtitle: '标准金条',
-          icon: 'Au',
-          iconColor: '#FFD700',
-          buyPrice: 557.00,
-          sellPrice: 567.30,
-          highPrice: 569.50,
-          lowPrice: 555.20
-        },
-        {
-          id: 4,
-          code: 'silver',
-          name: '白银',
-          subtitle: 'Ag9999 · 千足银',
-          icon: 'Ag',
-          iconColor: '#C0C0C0',
-          buyPrice: 7.15,
-          sellPrice: 7.45,
-          highPrice: 7.50,
-          lowPrice: 7.10
-        },
-        {
-          id: 5,
-          code: 'palladium',
-          name: '钯金',
-          subtitle: 'Pd990 · 钯金饰品',
-          icon: 'Pd',
-          iconColor: '#CED0DD',
-          buyPrice: 715.80,
-          sellPrice: 735.20,
-          highPrice: 738.00,
-          lowPrice: 712.50
-        },
-        {
-          id: 6,
-          code: 'platinum',
-          name: '铂金',
-          subtitle: 'Pt950 · 白金',
-          icon: 'Pt',
-          iconColor: '#E5E4E2',
-          buyPrice: 208.30,
-          sellPrice: 218.50,
-          highPrice: 220.00,
-          lowPrice: 206.50
-        },
-        {
-          id: 7,
-          code: 'silver_td',
-          name: '白银T+D',
-          subtitle: '上海金交所',
-          icon: 'Ag',
-          iconColor: '#C0C0C0',
-          buyPrice: 7.20,
-          sellPrice: 7.50,
-          highPrice: 7.55,
-          lowPrice: 7.15
-        },
-        {
-          id: 8,
-          code: 'us_gold',
-          name: '美黄金',
-          subtitle: 'COMEX黄金',
-          icon: 'Au',
-          iconColor: '#DAA520',
-          buyPrice: 2650.30,
-          sellPrice: 2665.80,
-          highPrice: 2670.00,
-          lowPrice: 2645.00
-        },
-        {
-          id: 9,
-          code: 'us_silver',
-          name: '美白银',
-          subtitle: 'COMEX白银',
-          icon: 'Ag',
-          iconColor: '#B0B0B0',
-          buyPrice: 31.25,
-          sellPrice: 31.85,
-          highPrice: 32.00,
-          lowPrice: 31.10
-        },
-        {
-          id: 10,
-          code: 'london_gold',
-          name: '伦敦金',
-          subtitle: 'LBMA黄金',
-          icon: 'Au',
-          iconColor: '#FFD700',
-          buyPrice: 2648.50,
-          sellPrice: 2664.20,
-          highPrice: 2668.00,
-          lowPrice: 2643.30
-        },
-        {
-          id: 11,
-          code: 'london_silver',
-          name: '伦敦银',
-          subtitle: 'LBMA白银',
-          icon: 'Ag',
-          iconColor: '#C0C0C0',
-          buyPrice: 31.18,
-          sellPrice: 31.78,
-          highPrice: 31.95,
-          lowPrice: 31.05
-        },
-        {
-          id: 12,
-          code: 'usd_cny',
-          name: '美元兑换',
-          subtitle: 'USD/CNY',
-          icon: '$',
-          iconColor: '#4CAF50',
-          buyPrice: 7.25,
-          sellPrice: 7.30,
-          highPrice: 7.32,
-          lowPrice: 7.23
-        }
-      ]
-    };
+    const api = require('./utils/api.js');
+    
+    return new Promise((resolve, reject) => {
+      api.getPriceList({ status: 1 }) // 只获取启用的价格
+        .then((priceList) => {
+          // 转换数据格式，适配小程序需要的格式
+          const formattedList = priceList.map(item => ({
+            id: item.id,
+            code: item.code,
+            name: item.name,
+            subtitle: item.subtitle || '',
+            icon: item.icon || 'Au',
+            iconColor: item.icon_color || '#FFD700',
+            buyPrice: item.buy_price || 0,
+            sellPrice: item.sell_price || 0,
+            // 如果没有高低价，使用买卖价作为参考
+            highPrice: item.sell_price || item.buy_price || 0,
+            lowPrice: item.buy_price || 0
+          }));
 
-    wx.setStorageSync('priceData', priceData);
-    return priceData;
+          const priceData = {
+            updateTime: this.formatTime(new Date()),
+            list: formattedList
+          };
+
+          // 缓存数据
+          wx.setStorageSync('priceData', priceData);
+          resolve(priceData);
+        })
+        .catch((err) => {
+          console.error('获取价格数据失败:', err);
+          // 失败时返回缓存的旧数据
+          const cachedData = wx.getStorageSync('priceData');
+          if (cachedData) {
+            resolve(cachedData);
+          } else {
+            reject(err);
+          }
+        });
+    });
   },
 
   // 格式化时间

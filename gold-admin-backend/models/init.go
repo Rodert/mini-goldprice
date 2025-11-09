@@ -340,18 +340,6 @@ func InitData() error {
 			Status:        1,
 		},
 		{
-			Code:          "usd_index",
-			Name:          "美元指数",
-			Subtitle:      "USD Index · DXY",
-			Icon:          "USD",
-			IconColor:     "#4169E1",
-			BasePrice:     103.50,
-			BuyPriceDiff:  -0.20,
-			SellPriceDiff: 0.30,
-			Sort:          16,
-			Status:        1,
-		},
-		{
 			Code:          "comex_gold",
 			Name:          "纽约金",
 			Subtitle:      "COMEX Gold · 期货",

@@ -19,7 +19,6 @@
   <view class="update-time">
     <text class="time-icon">🕐</text>
     <text class="time-text">更新时间: {{updateTime}}</text>
-    <text class="mock-badge">模拟数据</text>
   </view>
 
   <!-- 分类导航 -->
@@ -133,7 +132,6 @@
       <text class="title-text">免责声明</text>
     </view>
     <view class="disclaimer-content">
-      <text class="disclaimer-item disclaimer-highlight">⚠️ 当前展示的价格为模拟数据，仅供演示参考。正式使用前请对接后端API获取真实价格。</text>
       <text class="disclaimer-item">1. 本页面展示的价格仅供参考，实际回收价格以到店当面检测为准。</text>
       <text class="disclaimer-item">2. 贵金属价格随国际行情波动，我们会根据实时市场行情调整报价。</text>
       <text class="disclaimer-item">3. 回收价格会根据成色、重量、品牌等因素有所差异，具体以实物鉴定为准。</text>

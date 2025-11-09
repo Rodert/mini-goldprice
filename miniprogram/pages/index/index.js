@@ -1,5 +1,6 @@
 // pages/index/index.js
 const app = getApp();
+const api = require('../../utils/api.js');
 
 Page({
   data: {
@@ -33,9 +34,6 @@ Page({
     console.log('首页加载');
     this.loadData();
     this.setStoreInfo();
-    
-    // 提示使用的是模拟数据
-    this.showMockDataTip();
   },
 
   onShow() {
@@ -55,23 +53,60 @@ Page({
       mask: true
     });
 
-    // 从缓存或后端获取价格数据
-    // 这里使用模拟数据，实际开发中应该调用API
-    let priceData = wx.getStorageSync('priceData');
-    
-    if (!priceData) {
-      // 如果没有缓存，使用app.js中的方法初始化数据
-      priceData = app.updatePriceData();
-    }
+    // 从后端API获取真实数据
+    api.getPriceList({ status: 1 })
+      .then((priceList) => {
+        // 转换数据格式，适配小程序需要的格式
+        const formattedList = priceList.map(item => ({
+          id: item.id,
+          code: item.code,
+          name: item.name,
+          subtitle: item.subtitle || '',
+          icon: item.icon || 'Au',
+          iconColor: item.icon_color || '#FFD700',
+          buyPrice: item.buy_price || 0,
+          sellPrice: item.sell_price || 0,
+          // 如果没有高低价，使用买卖价作为参考
+          highPrice: item.sell_price || item.buy_price || 0,
+          lowPrice: item.buy_price || 0
+        }));
 
-    this.setData({
-      priceList: priceData.list,
-      displayList: priceData.list,
-      updateTime: priceData.updateTime
-    });
+        const priceData = {
+          updateTime: this.formatTime(new Date()),
+          list: formattedList
+        };
 
-    wx.hideLoading();
-    wx.stopPullDownRefresh();
+        this.setData({
+          priceList: formattedList,
+          displayList: formattedList,
+          updateTime: priceData.updateTime
+        });
+
+        // 缓存数据
+        wx.setStorageSync('priceData', priceData);
+      })
+      .catch((err) => {
+        console.error('加载数据失败:', err);
+        wx.showToast({
+          title: '加载失败，使用缓存数据',
+          icon: 'none',
+          duration: 2000
+        });
+
+        // 失败时使用缓存数据
+        const cachedData = wx.getStorageSync('priceData');
+        if (cachedData) {
+          this.setData({
+            priceList: cachedData.list,
+            displayList: cachedData.list,
+            updateTime: cachedData.updateTime
+          });
+        }
+      })
+      .finally(() => {
+        wx.hideLoading();
+        wx.stopPullDownRefresh();
+      });
   },
 
   // 设置店铺信息
@@ -81,15 +116,21 @@ Page({
     });
   },
 
-  // 显示模拟数据提示
-  showMockDataTip() {
-    wx.showModal({
-      title: '温馨提示',
-      content: '当前展示的价格为模拟数据，仅供演示参考。\n\n正式使用前请对接后端API获取真实价格数据。',
-      confirmText: '我知道了',
-      showCancel: false,
-      confirmColor: '#FFA500'
-    });
+  // 格式化时间
+  formatTime(date) {
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1;
+    const day = date.getDate();
+    const hour = date.getHours();
+    const minute = date.getMinutes();
+    const second = date.getSeconds();
+
+    return `${year}-${this.formatNumber(month)}-${this.formatNumber(day)} ${this.formatNumber(hour)}:${this.formatNumber(minute)}:${this.formatNumber(second)}`;
+  },
+
+  formatNumber(n) {
+    n = n.toString();
+    return n[1] ? n : '0' + n;
   },
 
 
