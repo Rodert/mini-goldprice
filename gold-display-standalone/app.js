@@ -23,11 +23,11 @@
         // 资源路径
         videoPath: 'assets/jewelry-video.mp4',
         productImages: [
-            'https://qcloud.dpfile.com/pc/YCTUsa0Z4mrzK7qBdGKcwTKtKkDKaHEnpRurI7Y593BGwRK899Q_dG3QMjFCppQBY0q73sB2DyQcgmKUxZFQtw.jpg',
-            'https://qcloud.dpfile.com/pc/YCTUsa0Z4mrzK7qBdGKcwTKtKkDKaHEnpRurI7Y593BGwRK899Q_dG3QMjFCppQBY0q73sB2DyQcgmKUxZFQtw.jpg',
-            'https://qcloud.dpfile.com/pc/YCTUsa0Z4mrzK7qBdGKcwTKtKkDKaHEnpRurI7Y593BGwRK899Q_dG3QMjFCppQBY0q73sB2DyQcgmKUxZFQtw.jpg',
-            'https://qcloud.dpfile.com/pc/YCTUsa0Z4mrzK7qBdGKcwTKtKkDKaHEnpRurI7Y593BGwRK899Q_dG3QMjFCppQBY0q73sB2DyQcgmKUxZFQtw.jpg',
-            'https://qcloud.dpfile.com/pc/YCTUsa0Z4mrzK7qBdGKcwTKtKkDKaHEnpRurI7Y593BGwRK899Q_dG3QMjFCppQBY0q73sB2DyQcgmKUxZFQtw.jpg'
+            'assets/jiezhi.png',
+            'assets/jiezhi.png',
+            'assets/shouzhuo.png',
+            'assets/jiezhi.png',
+            'assets/shouzhuo.png',
         ],
         
         // 模拟数据（API失败时使用）
