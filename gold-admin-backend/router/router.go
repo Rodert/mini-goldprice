@@ -30,14 +30,19 @@ func SetupRouter() *gin.Engine {
 		// 公开路由（无需认证）
 		api.POST("/login", v1.Login)
 
+		openapi := api.Group("openapi")
+		{
+			openapi.GET("/prices", v1.GetPriceList)
+		}
+
 		// 需要认证的路由
 		auth := api.Group("")
 		auth.Use(middleware.JWTAuth())
 		{
-		// 认证相关
-		auth.POST("/logout", v1.Logout)
-		auth.GET("/user/info", v1.GetUserInfo)
-		auth.GET("/user/menus", v1.GetUserMenus)
+			// 认证相关
+			auth.POST("/logout", v1.Logout)
+			auth.GET("/user/info", v1.GetUserInfo)
+			auth.GET("/user/menus", v1.GetUserMenus)
 
 			// 首页看板
 			auth.GET("/dashboard/stats", v1.GetDashboardStats)
@@ -104,4 +109,3 @@ func SetupRouter() *gin.Engine {
 
 	return r
 }
-

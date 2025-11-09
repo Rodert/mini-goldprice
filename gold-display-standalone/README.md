@@ -29,7 +29,7 @@
 
 ```javascript
 var CONFIG = {
-    apiBaseUrl: 'http://your-server:8080/api/v1',  // 修改为你的后端地址
+    apiBaseUrl: 'http://gold.javapub.net.cn/api',  // 修改为你的后端地址
     // ... 其他配置
 };
 ```
@@ -82,7 +82,7 @@ gold-display-standalone/
 ```javascript
 var CONFIG = {
     // API配置
-    apiBaseUrl: 'http://localhost:8080/api/v1',  // API基础地址
+    apiBaseUrl: 'http://gold.javapub.net.cn/api',  // API基础地址
     apiTimeout: 10000,                             // API超时时间（毫秒）
     
     // 动画配置
@@ -140,7 +140,7 @@ var CONFIG = {
 
 **请求：**
 ```
-GET /api/v1/prices?page=1&page_size=100
+GET /api/prices?page=1&page_size=100
 ```
 
 **响应格式：**
