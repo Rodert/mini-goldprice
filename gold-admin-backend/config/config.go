@@ -91,3 +91,9 @@ func LoadConfigFromEmbed(embedFS embed.FS, configPath string) error {
 func LoadConfig(configPath string) error {
 	return LoadConfigFromFile(configPath)
 }
+
+
+
+
+
+

@@ -14,11 +14,11 @@
         marqueeSpeed: 100,    // 欢迎语滚动速度（像素/秒）
         refreshInterval: 5 * 60 * 1000,  // 价格刷新间隔（5分钟）
         productImages: [
-            'https://qcloud.dpfile.com/pc/YCTUsa0Z4mrzK7qBdGKcwTKtKkDKaHEnpRurI7Y593BGwRK899Q_dG3QMjFCppQBY0q73sB2DyQcgmKUxZFQtw.jpg',
-            'https://qcloud.dpfile.com/pc/YCTUsa0Z4mrzK7qBdGKcwTKtKkDKaHEnpRurI7Y593BGwRK899Q_dG3QMjFCppQBY0q73sB2DyQcgmKUxZFQtw.jpg',
-            'https://qcloud.dpfile.com/pc/YCTUsa0Z4mrzK7qBdGKcwTKtKkDKaHEnpRurI7Y593BGwRK899Q_dG3QMjFCppQBY0q73sB2DyQcgmKUxZFQtw.jpg',
-            'https://qcloud.dpfile.com/pc/YCTUsa0Z4mrzK7qBdGKcwTKtKkDKaHEnpRurI7Y593BGwRK899Q_dG3QMjFCppQBY0q73sB2DyQcgmKUxZFQtw.jpg',
-            'https://qcloud.dpfile.com/pc/YCTUsa0Z4mrzK7qBdGKcwTKtKkDKaHEnpRurI7Y593BGwRK899Q_dG3QMjFCppQBY0q73sB2DyQcgmKUxZFQtw.jpg'
+            'assets/img.jpg',
+            'assets/img.jpg',
+            'assets/img.jpg',
+            'assets/img.jpg',
+            'assets/img.jpg'
         ]
     };
 
