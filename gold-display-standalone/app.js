@@ -9,7 +9,7 @@
     // 配置项
     var CONFIG = {
         // API配置
-        apiBaseUrl: 'http://gold.javapub.net.cn/api/openapi',
+        apiBaseUrl: 'http://123.57.165.54:8089/api/openapi',
         apiTimeout: 10000, // 10秒超时
         
         // 动画配置
